@@ -1,0 +1,412 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>计算机系统结构01--基础知识 - Orange_Blog</title>
+
+  
+    <meta name="description" content="16位寄存器:  AX accumulator 累加寄存器 x是extend  CX counter DX data BX base 基址寄存器 SP stack pointer BP base pointer SI source index 源变址寄存器 DI destination index 目的变址寄存器  8位寄存器  AL L:low CL DL BL AH H:high CH DH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机系统结构01--基础知识">
+<meta property="og:url" content="https://yzcgg.github.io/2024/03/07/[%E5%A4%A7%E4%B8%89%E4%B8%8B]30%E5%A4%A9%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="Orange_Blog">
+<meta property="og:description" content="16位寄存器:  AX accumulator 累加寄存器 x是extend  CX counter DX data BX base 基址寄存器 SP stack pointer BP base pointer SI source index 源变址寄存器 DI destination index 目的变址寄存器  8位寄存器  AL L:low CL DL BL AH H:high CH DH">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/OS_IPL.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/virPage.jpg">
+<meta property="article:published_time" content="2024-03-07T07:44:38.000Z">
+<meta property="article:modified_time" content="2024-03-22T13:55:43.531Z">
+<meta property="article:author" content="Yang ZhiCheng">
+<meta property="article:tag" content="大三下">
+<meta property="article:tag" content="30天操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yzcgg.github.io/source/assets/photos/OS_IPL.jpg">
+  
+  
+  
+  <meta name="keywords" content="大三下,30天操作系统">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F9a4fc18b-e02d-409f-9b6d-1e92ddbcd27e%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1710249819&t=818093a620aa4d2bd57e9e3ccfa110cd" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Orange_Blog</div><div class="sub normal cap">专注,真诚,阳光</div><div class="sub hover cap" style="opacity:0"> yzc的blog</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#day-03"><span class="toc-text">day_03</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#python%E7%89%88OS"><span class="toc-text">python版OS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%A8%A1%E5%9D%97"><span class="toc-text">内存管理模块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#data-%E2%80%93-%E6%A8%A1%E6%8B%9F%E6%95%B0%E6%8D%AE"><span class="toc-text">data – 模拟数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#page-%E2%80%93-%E6%A8%A1%E6%8B%9F%E5%86%85%E5%AD%98%E9%A1%B5"><span class="toc-text">page – 模拟内存页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#memory-%E2%80%93-%E6%A8%A1%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-text">memory – 模拟内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Process-Manager-%E2%80%93-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-text">Process Manager – 进程管理</span></a></li></ol></li></ol></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/07/%5B%E6%97%A5%E8%AE%B0%5D%E6%B8%85%E6%98%8E%E5%89%8D%E5%A4%95/"><span class="title">清明前夕</span></a><a class="item title" href="/2024/03/26/%5B%E6%97%A5%E8%AE%B0%5D%E4%BD%8E%E8%B0%B7%E4%B8%AD%E7%9A%84%E5%B0%8F%E6%AC%A2%E6%AC%A3/"><span class="title">低谷中的小欢欣</span></a><a class="item title" href="/2024/03/07/%5B%E6%97%A5%E8%AE%B0%5D3-18-%E6%97%A0%E9%A2%98/"><span class="title">无题</span></a><a class="item title" href="/2024/04/03/%5B%E6%8A%80%E6%9C%AF%5DRedis/"><span class="title">Redis</span></a><a class="item title" href="/2024/04/04/%5B%E6%97%A5%E8%AE%B0%5D%E5%8E%BB%E7%B4%AB%E7%AB%B9%E5%85%AC%E5%9B%AD%E5%95%A6/"><span class="title">去紫竹公园啦</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8B/">大三下</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8B/30%E5%A4%A9%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">30天操作系统</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-03-07T07:44:38.000Z">2024-03-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-22T13:55:43.531Z">2024-03-22</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>计算机系统结构01--基础知识</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>16位寄存器:</p>
+<ul>
+<li>AX accumulator 累加寄存器 x是extend </li>
+<li>CX counter</li>
+<li>DX data</li>
+<li>BX base 基址寄存器</li>
+<li>SP stack pointer</li>
+<li>BP base pointer</li>
+<li>SI source index 源变址寄存器</li>
+<li>DI destination index 目的变址寄存器</li>
+</ul>
+<p>8位寄存器</p>
+<ul>
+<li>AL L:low</li>
+<li>CL</li>
+<li>DL</li>
+<li>BL</li>
+<li>AH H:high</li>
+<li>CH</li>
+<li>DH</li>
+<li>BH</li>
+</ul>
+<p>32位寄存器就是在16位寄存器前面加一个E</p>
+<ul>
+<li>EAX … 剩下的不一个一个写了</li>
+</ul>
+<p>段寄存器, 16位, segment register</p>
+<ul>
+<li>ES extra segment 附加寄存器</li>
+<li>CS code segment 代码寄存器</li>
+<li>SS stack 栈寄存器 </li>
+<li>DS data 数据段寄存器 </li>
+<li>FS 没有名字</li>
+<li>GS 没有名字</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV BYTE [678] 123</span><br></pre></td></tr></table></figure>
+<p>把123放到内存地址678号.<br>可以这么写, 用寄存器中的值指定内存地址, 但是, 只有BX, BP, SI, DI这几个可以.</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BYTE [SI]</span><br></pre></td></tr></table></figure>
+
+<p>如果想把DX指定的内存地址的内容, 赋值给AL的时候, 就要这样:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOV BX,DX</span><br><span class="line">MOV AL,BYTE [BX]</span><br></pre></td></tr></table></figure>
+
+<p>源数据和目的数据必须相同. 因此可以省略.</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV AL, [SI]</span><br></pre></td></tr></table></figure>
+
+<p>BIOS &#x3D; basic input output system</p>
+<p>ORG是指定程序加载到内存哪个位置</p>
+<h2 id="day-03"><a href="#day-03" class="headerlink" title="day_03"></a>day_03</h2><p>也就是说第一个扇区的512个Byte是BIOS通电后自动就映像到内存中的, 也叫启动区, 利用启动区的512B的空间写一个IPL(initial programme loader), 把剩下的磁盘扇区也映射到内存中.</p>
+<p>今天先读了磁盘, 就是把磁盘的内容映像到内存.</p>
+<p>扇区是从1号开始的, 所以要从2号开始.</p>
+<p>先初始化了一堆寄存器, 其中代表 柱面 磁头 扇区的最好记住<br>然后读第一个扇区, 中间有一小段试错的代码, 然后读到18号扇区, 换一个磁头, 再读, 又读完了, 磁头切换回0, 进入下一个柱面, 重复. 也就是说, 一共读了(如果算上启动区的话): 18 * 512 * 2 * 10 &#x3D; 184320 B</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">; 程序主体</span><br><span class="line"></span><br><span class="line">entry:</span><br><span class="line">		MOV		AX,0			; 初始化寄存器</span><br><span class="line">		MOV		SS,AX</span><br><span class="line">		MOV		SP,0x7c00</span><br><span class="line">		MOV		DS,AX</span><br><span class="line"></span><br><span class="line">; 读取磁盘</span><br><span class="line"></span><br><span class="line">		MOV		AX,0x0820</span><br><span class="line">		MOV		ES,AX</span><br><span class="line">		MOV		CH,0			; 柱面0</span><br><span class="line">		MOV		DH,0			; 磁头0</span><br><span class="line">		MOV		CL,2			; 扇区2</span><br><span class="line"></span><br><span class="line">readloop:</span><br><span class="line">		MOV		SI,0			; 记录失败次数寄存器</span><br><span class="line"></span><br><span class="line">retry:</span><br><span class="line">		MOV		AH,0x02			; AH=0x02 : 读入磁盘</span><br><span class="line">		MOV		AL,1			; 1个扇区</span><br><span class="line">		MOV		BX,0</span><br><span class="line">		MOV		DL,0x00			; A驱动器</span><br><span class="line">		INT		0x13			; 调用磁盘BIOS</span><br><span class="line">		JNC		next			; 没出错则跳转到next</span><br><span class="line">		ADD		SI,1			; 往SI加1</span><br><span class="line">		CMP		SI,5			; 比较SI与5</span><br><span class="line">		JAE		error			; SI &gt;= 5 跳转到error</span><br><span class="line">		MOV		AH,0x00</span><br><span class="line">		MOV		DL,0x00			; A驱动器</span><br><span class="line">		INT		0x13			; 重置驱动器</span><br><span class="line">		JMP		retry</span><br><span class="line">next:</span><br><span class="line">		MOV		AX,ES			; 把内存地址后移0x200（512/16十六进制转换）</span><br><span class="line">		ADD		AX,0x0020</span><br><span class="line">		MOV		ES,AX			; ADD ES,0x020因为没有ADD ES，只能通过AX进行</span><br><span class="line">		ADD		CL,1			; 往CL里面加1</span><br><span class="line">		CMP		CL,18			; 比较CL与18</span><br><span class="line">		JBE		readloop		; CL &lt;= 18 跳转到readloop</span><br><span class="line">		MOV		CL,1</span><br><span class="line">		ADD		DH,1</span><br><span class="line">		CMP		DH,2</span><br><span class="line">		JB		readloop		; DH &lt; 2 跳转到readloop</span><br><span class="line">		MOV		DH,0</span><br><span class="line">		ADD		CH,1</span><br><span class="line">		CMP		CH,CYLS</span><br><span class="line">		JB		readloop		; CH &lt; CYLS 跳转到readloop</span><br><span class="line"></span><br><span class="line">; 读取完毕，跳转到haribote.sys执行！</span><br><span class="line">		MOV		[0x0ff0],CH		; IPLがどこまで読んだのかをメモ</span><br><span class="line">		JMP		0xc200</span><br><span class="line"></span><br><span class="line">error:</span><br><span class="line">		MOV		SI,msg</span><br><span class="line"></span><br><span class="line">putloop:</span><br><span class="line">		MOV		AL,[SI]</span><br><span class="line">		ADD		SI,1			; 给SI加1</span><br><span class="line">		CMP		AL,0</span><br><span class="line">		JE		fin</span><br><span class="line">		MOV		AH,0x0e			; 显示一个文字</span><br><span class="line">		MOV		BX,15			; 指定字符颜色</span><br><span class="line">		INT		0x10			; 调用显卡BIOS</span><br><span class="line">		JMP		putloop</span><br><span class="line"></span><br><span class="line">fin:</span><br><span class="line">		HLT						; 让CPU停止，等待指令</span><br><span class="line">		JMP		fin				; 无限循环</span><br><span class="line"></span><br><span class="line">msg:</span><br><span class="line">		DB		0x0a, 0x0a		; 换行两次</span><br><span class="line">		DB		&quot;load error&quot;</span><br><span class="line">		DB		0x0a			; 换行</span><br><span class="line">		DB		0</span><br><span class="line"></span><br><span class="line">		RESB	0x7dfe-$		; 填写0x00直到0x001fe</span><br><span class="line"></span><br><span class="line">		DB		0x55, 0xaa</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/OS_IPL.jpg"></p>
+<p>上图中, 第二个扇区映像到内存中的位置从0x08200而不是0x08000开始, 据B站一个up说是因为想让1号扇区看起来像是加载到0x08000位置(尽管其实不是)</p>
+<p>512用16进制表示是0x0200, 也就是比如从0x07c00开始读一个扇区, 要读到0x07dff</p>
+<h2 id="python版OS"><a href="#python版OS" class="headerlink" title="python版OS"></a>python版OS</h2><p>这只是一个用python模拟的OS软件, 并不是真正的OS.</p>
+<h3 id="内存管理模块"><a href="#内存管理模块" class="headerlink" title="内存管理模块"></a>内存管理模块</h3><h4 id="data-–-模拟数据"><a href="#data-–-模拟数据" class="headerlink" title="data – 模拟数据"></a>data – 模拟数据</h4><p>属性:</p>
+<ul>
+<li>数据内容. for example: 长度为40的string.</li>
+<li>数据大小. for example: 大小是10 B.</li>
+</ul>
+<p>方法:</p>
+<ul>
+<li>access(start, offset)<blockquote>
+<p>计算step, step的含义即一个字节能表示多少字.<br>access的start和offset都说的是字节.<br>比如我们要访问10 ~ 30 字节, 我要先算出来, 这些字节表示了多少个字, 然后再把string中的这些字显示出来.</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Data</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, string, size</span>):</span><br><span class="line">        self.string = string</span><br><span class="line">        self.size = size</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">access</span>(<span class="params">self, start, offset</span>):</span><br><span class="line">        step = <span class="built_in">len</span>(self.string) / self.size</span><br><span class="line">        <span class="keyword">return</span> self.string[<span class="built_in">int</span>(start * step): <span class="built_in">int</span>((start + offset) * step)]</span><br></pre></td></tr></table></figure>
+
+<h4 id="page-–-模拟内存页"><a href="#page-–-模拟内存页" class="headerlink" title="page – 模拟内存页"></a>page – 模拟内存页</h4><p>这里, 有点儿难看懂</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> sflag != -<span class="number">1</span> <span class="keyword">and</span> sflag == eflag:</span><br><span class="line">            <span class="keyword">return</span> self.content.get(self.usedAddress[sflag][<span class="number">0</span>]).access(offset - self.usedAddress[sflag][<span class="number">0</span>], length)</span><br></pre></td></tr></table></figure>
+<p>其实是这样的:</p>
+<ul>
+<li>首先content是一个字典, key是首地址, value 是 上面定义的data对象.</li>
+<li>那么, content.get就得到了一个data对象, data.access获得相应的数据(string)</li>
+<li>最后为什么access的参数是: offset - self.usedAddress[sflag][0], length 呢? <ul>
+<li>那是因为要换成相对的, 对于一个string来说, 开始就是0, 长度就是string.len. 而data的access方法的参数是start(字节), offset(字节). 对于一个页面来说, 我offset - start得到我的相对偏移量, 然后访问字节的长度是length.</li>
+</ul>
+</li>
+<li>总之最终返回的是string.</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .data <span class="keyword">import</span> Data</span><br><span class="line"><span class="keyword">from</span> .string_operation <span class="keyword">import</span> cutString</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Page</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, pageSize=<span class="number">16</span></span>):</span><br><span class="line">        self.maxSize = pageSize</span><br><span class="line">        <span class="comment"># if have used</span></span><br><span class="line">        self.used = <span class="number">0</span></span><br><span class="line">        <span class="comment"># [[(Start, End)], 标志哪些部分的地址被使用</span></span><br><span class="line">        self.usedAddress = [(pageSize + <span class="number">1</span>, pageSize + <span class="number">2</span>)]</span><br><span class="line">        <span class="comment"># 键为数据首地址， 值为数据</span></span><br><span class="line">        self.content = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 页内访问,从偏移量开始访问length,返回字符串</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">access</span>(<span class="params">self, offset, length</span>):</span><br><span class="line">        <span class="comment"># 越界</span></span><br><span class="line">        <span class="keyword">if</span> offset + length &gt; self.maxSize <span class="keyword">or</span> offset &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> length == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 对已经被占用的部分, 按照起始地址排序</span></span><br><span class="line">        self.usedAddress.sort(key=<span class="keyword">lambda</span> x: x[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 找起点和终点落在页内哪一段(start,end)区间</span></span><br><span class="line">        start = offset</span><br><span class="line">        end = offset + length</span><br><span class="line">        sflag = -<span class="number">1</span></span><br><span class="line">        eflag = -<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.usedAddress)):</span><br><span class="line">            <span class="keyword">if</span> self.usedAddress[i][<span class="number">0</span>] &lt;= start &lt;= self.usedAddress[i][<span class="number">1</span>]:</span><br><span class="line">                sflag = i</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> self.usedAddress[i][<span class="number">0</span>] &lt;= end &lt;= self.usedAddress[i][<span class="number">1</span>]:</span><br><span class="line">                eflag = i</span><br><span class="line"></span><br><span class="line">        data = []</span><br><span class="line">        endData = <span class="string">&quot;&quot;</span></span><br><span class="line">        startData = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 落在同一段区间</span></span><br><span class="line">        <span class="keyword">if</span> sflag != -<span class="number">1</span> <span class="keyword">and</span> sflag == eflag:</span><br><span class="line">            <span class="keyword">return</span> self.content.get(self.usedAddress[sflag][<span class="number">0</span>]).access(offset - self.usedAddress[sflag][<span class="number">0</span>], length)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 没有落在同一段区间, 就把start ~ end中每一段被使用了的数据都加入, 连同startdata 和 enddata一同返回</span></span><br><span class="line">        <span class="keyword">if</span> sflag != -<span class="number">1</span>:</span><br><span class="line">            startData = self.content.get(self.usedAddress[sflag][<span class="number">0</span>]).access(offset - self.usedAddress[sflag][<span class="number">0</span>],</span><br><span class="line">                self.usedAddress[sflag][<span class="number">1</span>] - offset + <span class="number">1</span>)</span><br><span class="line">            start = self.usedAddress[sflag][<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">if</span> eflag != -<span class="number">1</span>:</span><br><span class="line">            endData = self.content.get(self.usedAddress[eflag][<span class="number">0</span>]).access(<span class="number">0</span>, end - self.usedAddress[eflag][<span class="number">0</span>])</span><br><span class="line">            end = self.usedAddress[eflag][<span class="number">0</span>] - <span class="number">1</span></span><br><span class="line">        begin = -<span class="number">1</span></span><br><span class="line">        last = -<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.usedAddress)):</span><br><span class="line">            <span class="keyword">if</span> self.usedAddress[i][<span class="number">0</span>] &gt; start <span class="keyword">and</span> begin == -<span class="number">1</span>:</span><br><span class="line">                begin = i</span><br><span class="line">            <span class="keyword">if</span> self.usedAddress[i][<span class="number">0</span>] &gt; end <span class="keyword">and</span> last == -<span class="number">1</span>:</span><br><span class="line">                last = i</span><br><span class="line">        <span class="keyword">if</span> begin != -<span class="number">1</span> <span class="keyword">and</span> last != -<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(begin, last):</span><br><span class="line">                data.append(self.content.get(self.usedAddress[i][<span class="number">0</span>]).access(<span class="number">0</span>, self.usedAddress[i][<span class="number">1</span>] - self.usedAddress[i][<span class="number">0</span>] + <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> startData + <span class="string">&quot;&quot;</span>.join(data) + endData</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 从offset开始写入Length,内容为string</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">write</span>(<span class="params">self, offset, length, string</span>):</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> offset + length &gt; self.maxSize <span class="keyword">or</span> offset &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> length == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        self.usedAddress.sort(key=<span class="keyword">lambda</span> x: x[<span class="number">0</span>])</span><br><span class="line">        start = offset</span><br><span class="line">        end = offset + length</span><br><span class="line">        sflag = -<span class="number">1</span></span><br><span class="line">        eflag = -<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.usedAddress)):</span><br><span class="line">            <span class="keyword">if</span> self.usedAddress[i][<span class="number">0</span>] &lt;= start &lt;= self.usedAddress[i][<span class="number">1</span>]:</span><br><span class="line">                sflag = i</span><br><span class="line">            <span class="keyword">if</span> self.usedAddress[i][<span class="number">0</span>] &lt;= end &lt;= self.usedAddress[i][<span class="number">1</span>]:</span><br><span class="line">                eflag = i</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> sflag != -<span class="number">1</span> <span class="keyword">and</span> sflag == eflag:</span><br><span class="line">            start1 = self.usedAddress[sflag][<span class="number">0</span>]</span><br><span class="line">            end1 = self.usedAddress[sflag][<span class="number">1</span>]</span><br><span class="line">            strings1 = cutString([offset - start1, length, end1 - length - offset + <span class="number">1</span>], self.content.get(start1).string)</span><br><span class="line">            self.free(self.usedAddress[sflag])</span><br><span class="line">            self.writeOne(start1, offset - start1, strings1[<span class="number">0</span>])</span><br><span class="line">            self.writeOne(offset + length, end1 - length - offset + <span class="number">1</span>, strings1[<span class="number">2</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            start1 = self.usedAddress[sflag][<span class="number">0</span>]</span><br><span class="line">            end1 = self.usedAddress[sflag][<span class="number">1</span>]</span><br><span class="line">            start2 = self.usedAddress[eflag][<span class="number">0</span>]</span><br><span class="line">            end2 = self.usedAddress[eflag][<span class="number">1</span>]</span><br><span class="line">            <span class="keyword">if</span> sflag != -<span class="number">1</span>:</span><br><span class="line">                strings2 = cutString([offset - start1, end1 - offset + <span class="number">1</span>], self.content.get(start1).string)</span><br><span class="line"></span><br><span class="line">                self.free((start1, end1))</span><br><span class="line">                self.writeOne(start1, offset - start1, strings2[<span class="number">0</span>])</span><br><span class="line">            <span class="keyword">if</span> eflag != -<span class="number">1</span>:</span><br><span class="line">                strings3 = cutString([offset + length - start2, end2 - offset - length + <span class="number">1</span>],</span><br><span class="line">                                     self.content.get(start2).string)</span><br><span class="line">                self.free((start2, end2))</span><br><span class="line">                self.writeOne(offset + length, end2 - offset - length + <span class="number">1</span>, strings3[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">        self.usedAddress.sort(key=<span class="keyword">lambda</span> x: x[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        remove = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> self.usedAddress:</span><br><span class="line">            <span class="keyword">if</span> i[<span class="number">0</span>] &gt;= offset <span class="keyword">and</span> i[<span class="number">1</span>] &lt;= end - <span class="number">1</span>:</span><br><span class="line">                remove.append(i)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> remove:</span><br><span class="line">            self.free(i)</span><br><span class="line">        self.writeOne(offset, length, string)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 向page中的某一段连续空间start,end写入数据</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">writeOne</span>(<span class="params">self, offset, length, string</span>):</span><br><span class="line"></span><br><span class="line">        self.usedAddress.append((offset, offset + length - <span class="number">1</span>))</span><br><span class="line">        self.content[offset] = Data(string, length)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 清空useAddress, 清空content</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">self, ret</span>):</span><br><span class="line">        self.usedAddress.remove(ret)</span><br><span class="line">        self.content.pop(ret[<span class="number">0</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="memory-–-模拟内存"><a href="#memory-–-模拟内存" class="headerlink" title="memory – 模拟内存"></a>memory – 模拟内存</h4><p>内存中有128页, 每页16kb. 通过一个列表memory表示, 页表中的每个元素都是page对象.</p>
+<p>access 和 write 是只能对 单页 进行.<br>malloc 是可以分配多个页面.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> .page <span class="keyword">import</span> Page</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Memory</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, pageSize=<span class="number">16</span>, pageNum=<span class="number">128</span></span>):</span><br><span class="line">        self.maxPage = pageNum</span><br><span class="line">        self.pageSize = pageSize</span><br><span class="line">        <span class="comment"># record used memory, kb</span></span><br><span class="line">        self.used = <span class="number">0</span></span><br><span class="line">        self.maxMem = pageSize * pageNum</span><br><span class="line">        <span class="comment"># [how many use:&lt;= pageSize]</span></span><br><span class="line">        self.memory = [Page(pageSize) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.maxPage)]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">access</span>(<span class="params">self, address, length</span>):</span><br><span class="line">        page = address // self.pageSize <span class="comment"># 在第几个页面上</span></span><br><span class="line">        <span class="keyword">if</span> page &gt;= self.maxPage <span class="keyword">or</span> length &gt; self.pageSize:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">        offset = address % self.pageSize <span class="comment"># 在某个页面上的偏移量</span></span><br><span class="line">        <span class="keyword">if</span> offset + length &gt; self.pageSize:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> self.memory[page].access(offset, length)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">malloc</span>(<span class="params">self, size</span>):</span><br><span class="line">        <span class="keyword">if</span> size == <span class="number">0</span>:</span><br><span class="line">            size = self.pageSize</span><br><span class="line">        <span class="keyword">if</span> self.used + size &gt; self.maxMem:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">        ret = []</span><br><span class="line">        num = math.ceil(size / self.pageSize) <span class="comment"># 计算要分匹配多少页, 向上取整.</span></span><br><span class="line"></span><br><span class="line">		<span class="comment"># 遍历所有空闲页面, 返回ret[] 保存页号.</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.memory)):</span><br><span class="line">            <span class="keyword">if</span> self.memory[i].used == <span class="number">0</span>:</span><br><span class="line">                self.memory[i].used = <span class="number">1</span></span><br><span class="line">                self.used += self.pageSize</span><br><span class="line">                ret.append(i)</span><br><span class="line">                num -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> num == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 把ret[] 列表中的页号全部释放.</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">self, ret</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> ret:</span><br><span class="line">            self.memory[i] = Page(self.pageSize)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">copy</span>(<span class="params">self, num, page</span>):</span><br><span class="line">        self.memory[num] = copy.deepcopy(page)</span><br><span class="line"></span><br><span class="line">	<span class="comment"># 对单页的写.</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">write</span>(<span class="params">self, address, length, string</span>):</span><br><span class="line">        page = address // self.pageSize</span><br><span class="line">        <span class="keyword">if</span> page &gt;= self.maxPage <span class="keyword">or</span> length &gt; self.pageSize:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">        offset = address % self.pageSize</span><br><span class="line">        <span class="keyword">if</span> offset + length &gt; self.pageSize:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">        self.memory[page].write(offset, length, string)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Process-Manager-–-进程管理"><a href="#Process-Manager-–-进程管理" class="headerlink" title="Process Manager – 进程管理"></a>Process Manager – 进程管理</h4><p>虚拟内存:<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/virPage.jpg"></p>
+<p>这是个小重点:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 动态分配,缺页率过高时增加lru表</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">ifAddLru</span>(<span class="params">self, step=<span class="number">10</span>, threshold=<span class="number">0.4</span></span>):</span><br><span class="line">        <span class="comment"># 访存次数过少，没有参考意义</span></span><br><span class="line">        <span class="keyword">if</span> self.accessTimes &lt; step * self.maxLru:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="comment"># 无需每次访存都判断，step次访存判断一次</span></span><br><span class="line">        <span class="keyword">if</span> self.accessTimes % step != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> self.lostPage / self.accessTimes &gt; threshold <span class="keyword">and</span> self.maxLru &lt; self.lrupper:</span><br><span class="line">            self.maxLru += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>解释:<br>默认一个进程可以有8个虚拟page, 如果缺页率过高, 则通过增加page方式来缓解, 但最多加到12个.</p>
+<ul>
+<li>maxLru是目前一个进程可以有多少个虚拟内存页面</li>
+</ul>
+<p>也不是每次都判断, 首先访存次数少, 统计缺页率没有意义.<br>第二, step次才判断一回, 每个进程持有的虚拟内存页面数并不会迅速增长.</p>
+<p>swapPage函数也是一个重点, 最后返回结果那里含义暂不明确.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 每个进程的单独管理,包括页表,使用的内存量等</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ProcessManager</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, defaultLru=<span class="number">8</span>, pageSize=<span class="number">16</span>, lrupper=<span class="number">12</span></span>):</span><br><span class="line">        self.maxAddress = -<span class="number">1</span></span><br><span class="line">        self.pageSize = pageSize</span><br><span class="line">        <span class="comment"># [-1, -1, 0, 0] -&gt; [虚存页号， 物理内存页号， 有效位， 是否在物理内存中被修改], 数组下标为页号</span></span><br><span class="line">        self.table = []</span><br><span class="line">        self.lru = []</span><br><span class="line">        self.maxLru = defaultLru</span><br><span class="line">        self.lostPage = <span class="number">0</span></span><br><span class="line">        self.accessTimes = <span class="number">0</span></span><br><span class="line">        self.lrupper = lrupper</span><br><span class="line">        <span class="comment"># &#123;文件名: [首地址, 大小, 块号, 是否代码段]&#125;</span></span><br><span class="line">        self.file = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 增加页表项,配合内存的申请</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">self, ret</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> ret:</span><br><span class="line">            self.table.append([i, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>])</span><br><span class="line">            self.maxAddress += self.pageSize</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 检查访问/写入地址是否合法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">ifPolicy</span>(<span class="params">self, address, length</span>):</span><br><span class="line">        <span class="keyword">if</span> address &lt; <span class="number">0</span> <span class="keyword">or</span> address + length - <span class="number">1</span> &gt; self.maxAddress:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 释放页表</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">free</span>(<span class="params">self, address, length</span>):</span><br><span class="line">        ret = self.findAllPage(address, length)</span><br><span class="line">        result = []</span><br><span class="line">        flag = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> ret:</span><br><span class="line">            result.append([self.table[i - flag][<span class="number">0</span>], self.table[i - flag][<span class="number">1</span>]])</span><br><span class="line">            self.table.pop(i - flag)</span><br><span class="line">            <span class="keyword">if</span> i <span class="keyword">in</span> self.lru:</span><br><span class="line">                self.lru.remove(i)</span><br><span class="line">            flag += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据地址和长度找出所有需要访问的虚拟页</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">findAllPage</span>(<span class="params">self, address, length</span>):</span><br><span class="line">        <span class="keyword">return</span> [i + address // self.pageSize <span class="keyword">for</span> i <span class="keyword">in</span></span><br><span class="line">                <span class="built_in">range</span>(<span class="number">0</span>, math.ceil((length + address % self.pageSize) / self.pageSize))]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 找出所访问内容是否在物理内存中,如果在返回物理页号，否则返回虚拟页号</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">ifInPhyMem</span>(<span class="params">self, address, length</span>):</span><br><span class="line">        ret = self.findAllPage(address, length)</span><br><span class="line">        result = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> ret:</span><br><span class="line">            <span class="keyword">if</span> self.table[i][<span class="number">2</span>] == <span class="number">1</span>:</span><br><span class="line">                result.append([<span class="number">1</span>, self.table[i][<span class="number">1</span>]]) <span class="comment"># self.table[i][1]是物理内存页号</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                result.append([<span class="number">0</span>, i]) <span class="comment"># i 就是虚拟页号</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 传入虚拟页，换页，传回参数给管理模块调度</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">swaPage</span>(<span class="params">self, page</span>):</span><br><span class="line"></span><br><span class="line">        self.ifAddLru()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 访存次数加一</span></span><br><span class="line">        self.accessTimes += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> page <span class="keyword">in</span> self.lru <span class="keyword">and</span> self.table[page][<span class="number">2</span>] == <span class="number">1</span>:</span><br><span class="line">            self.lru.remove(page)</span><br><span class="line">            self.lru.append(page)</span><br><span class="line">            <span class="keyword">return</span> [<span class="number">1</span>, self.table[page][<span class="number">1</span>]]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 用于计算缺页率</span></span><br><span class="line">        self.lostPage += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">		<span class="comment"># 当前的进程持有的虚拟内存页数没有满, 直接加进来</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.lru) &lt; self.maxLru:</span><br><span class="line">            self.lru.append(page)</span><br><span class="line">            <span class="keyword">return</span> [<span class="number">0</span>, [[-<span class="number">1</span>], [page, self.table[page][<span class="number">0</span>]]]]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            lost = self.lru.pop(<span class="number">0</span>)</span><br><span class="line">            self.lru.append(page)</span><br><span class="line">            <span class="keyword">return</span> [<span class="number">0</span>, [[lost, self.table[lost][<span class="number">1</span>], self.table[lost][<span class="number">3</span>], self.table[lost][<span class="number">0</span>]],</span><br><span class="line">                        [page, self.table[page][<span class="number">0</span>]]]]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 字如其名</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">modify</span>(<span class="params">self, page, flag, value</span>):</span><br><span class="line">        self.table[page][flag] = value</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 动态分配,缺页率过高时增加lru表</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">ifAddLru</span>(<span class="params">self, step=<span class="number">10</span>, threshold=<span class="number">0.4</span></span>):</span><br><span class="line">        <span class="comment"># 访存次数过少，没有参考意义</span></span><br><span class="line">        <span class="keyword">if</span> self.accessTimes &lt; step * self.maxLru:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="comment"># 无需每次访存都判断，step次访存判断一次</span></span><br><span class="line">        <span class="keyword">if</span> self.accessTimes % step != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> self.lostPage / self.accessTimes &gt; threshold <span class="keyword">and</span> self.maxLru &lt; self.lrupper:</span><br><span class="line">            self.maxLru += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 记录存入了哪些文件</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">addFile</span>(<span class="params">self, name, address, size, block, flag</span>):</span><br><span class="line">        self.file[name] = [address, size, block, flag]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/03/07/GRE%E9%98%85%E8%AF%BB05/">GRE阅读05</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/03/07/%5B%E5%A4%A7%E4%B8%89%E4%B8%8B%5DLinux/">计算机系统结构01--基础知识</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><center>
+</br>
+</br>
+<script type="text/javascript">
+function show_runtime() {
+    window.setTimeout("show_runtime()", 1000);
+    X = new Date("02/12/2024 00:00:00");
+    Y = new Date();
+    T = (Y.getTime() - X.getTime());
+    M = 24 * 60 * 60 * 1000;
+    a = T / M;
+    A = Math.floor(a);
+    b = (a - A) * 24;
+    B = Math.floor(b);
+    c = (b - B) * 60;
+    C = Math.floor((b - B) * 60);
+    D = Math.floor((c - C) * 60);
+    runtime_span.innerHTML = "⏲️本站已运行 " + A + "天 " + B + "小时 " + C + "分 " + D + "秒⏲️"
+}
+show_runtime();
+</script>
+<span id="runtime_span"></span>
+</center>
+本站由 [@anonymity](/) 使用 [Stellar](https://github.com/xaoxuu/hexo-theme-stellar) 主题创建。</br>
+本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>

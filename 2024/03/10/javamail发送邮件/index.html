@@ -1,0 +1,334 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>javamail发送邮件 - Orange_Blog</title>
+
+  
+    <meta name="description" content="参考博客: http:&#x2F;&#x2F;t.csdnimg.cn&#x2F;h20nT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javamail发送邮件">
+<meta property="og:url" content="https://yzcgg.github.io/2024/03/10/javamail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Orange_Blog">
+<meta property="og:description" content="参考博客: http:&#x2F;&#x2F;t.csdnimg.cn&#x2F;h20nT">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-10T01:17:31.000Z">
+<meta property="article:modified_time" content="2024-03-10T01:36:54.179Z">
+<meta property="article:author" content="Yang ZhiCheng">
+<meta property="article:tag" content="后端">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="后端,java">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F9a4fc18b-e02d-409f-9b6d-1e92ddbcd27e%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1710249819&t=818093a620aa4d2bd57e9e3ccfa110cd" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Orange_Blog</div><div class="sub normal cap">专注,真诚,阳光</div><div class="sub hover cap" style="opacity:0"> yzc的blog</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/07/%5B%E6%97%A5%E8%AE%B0%5D%E6%B8%85%E6%98%8E%E5%89%8D%E5%A4%95/"><span class="title">清明前夕</span></a><a class="item title" href="/2024/03/26/%5B%E6%97%A5%E8%AE%B0%5D%E4%BD%8E%E8%B0%B7%E4%B8%AD%E7%9A%84%E5%B0%8F%E6%AC%A2%E6%AC%A3/"><span class="title">低谷中的小欢欣</span></a><a class="item title" href="/2024/03/07/%5B%E6%97%A5%E8%AE%B0%5D3-18-%E6%97%A0%E9%A2%98/"><span class="title">无题</span></a><a class="item title" href="/2024/04/03/%5B%E6%8A%80%E6%9C%AF%5DRedis/"><span class="title">Redis</span></a><a class="item title" href="/2024/04/04/%5B%E6%97%A5%E8%AE%B0%5D%E5%8E%BB%E7%B4%AB%E7%AB%B9%E5%85%AC%E5%9B%AD%E5%95%A6/"><span class="title">去紫竹公园啦</span></a></div></widget>
+
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/07/%5B%E6%97%A5%E8%AE%B0%5D%E6%B8%85%E6%98%8E%E5%89%8D%E5%A4%95/"><span class="title">清明前夕</span></a><a class="item title" href="/2024/03/26/%5B%E6%97%A5%E8%AE%B0%5D%E4%BD%8E%E8%B0%B7%E4%B8%AD%E7%9A%84%E5%B0%8F%E6%AC%A2%E6%AC%A3/"><span class="title">低谷中的小欢欣</span></a><a class="item title" href="/2024/03/07/%5B%E6%97%A5%E8%AE%B0%5D3-18-%E6%97%A0%E9%A2%98/"><span class="title">无题</span></a><a class="item title" href="/2024/04/03/%5B%E6%8A%80%E6%9C%AF%5DRedis/"><span class="title">Redis</span></a><a class="item title" href="/2024/04/04/%5B%E6%97%A5%E8%AE%B0%5D%E5%8E%BB%E7%B4%AB%E7%AB%B9%E5%85%AC%E5%9B%AD%E5%95%A6/"><span class="title">去紫竹公园啦</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E9%A1%B9%E7%9B%AE/">项目</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E9%A1%B9%E7%9B%AE/%E7%89%9B%E5%AE%A2%E8%AE%BA%E5%9D%9B/">牛客论坛</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-03-10T01:17:31.000Z">2024-03-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-10T01:36:54.179Z">2024-03-10</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>javamail发送邮件</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>参考博客: <a target="_blank" rel="noopener" href="http://t.csdnimg.cn/h20nT">http://t.csdnimg.cn/h20nT</a></p>
+<span id="more"></span>
+
+<p>用spring boot 整合了的 javamail 发送邮件步骤.</p>
+<p>首先邮箱要开启smpt服务, 而且会获得一个授权码, 授权码用于第三方登录邮箱.</p>
+<p>第二步配置application.properties:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># MailProperties</span><br><span class="line">spring.mail.host=smtp.qq.com</span><br><span class="line">spring.mail.post=<span class="number">465</span></span><br><span class="line">spring.mail.username=<span class="number">656501226</span><span class="meta">@qq</span>.com</span><br><span class="line">spring.mail.password=vlhrbb*****</span><br><span class="line">spring.mail.protocol=smtps</span><br><span class="line">spring.mail.properties.mail.smtp.ssl.enable=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>注意点是, password这里填写的是授权码, 不是自己的邮箱密码.</p>
+<p>第三步编写utils包下的工具类MailClient, 写一个发送邮件的方法.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MailClient</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(MailClient.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JavaMailSender mailSender;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;spring.mail.username&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String from;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendMail</span><span class="params">(String to, String subject, String content)</span>&#123;</span><br><span class="line">        <span class="type">MimeMessage</span> <span class="variable">message</span> <span class="operator">=</span> mailSender.createMimeMessage();</span><br><span class="line">        <span class="type">MimeMessageHelper</span> <span class="variable">helper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MimeMessageHelper</span>(message);</span><br><span class="line">        <span class="comment">//logger.info(&quot;hahaha&quot;);</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            helper.setFrom(from);</span><br><span class="line">            helper.setTo(to);</span><br><span class="line">            helper.setSubject(subject);</span><br><span class="line">            helper.setText(content, <span class="literal">true</span>);</span><br><span class="line">            mailSender.send(helper.getMimeMessage());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (MessagingException e) &#123;</span><br><span class="line">            logger.error(<span class="string">&quot;email send fail&quot;</span> + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//logger.info(&quot;heiheihei&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于spring中注解@Value的用法, 参考博客: <a target="_blank" rel="noopener" href="http://t.csdnimg.cn/Q4KTW">http://t.csdnimg.cn/Q4KTW</a></p>
+<p>在使用spring框架的项目中，@Value是经常使用的注解之一。其功能是将与配置文件中的键对应的值分配给其带注解的属性。在日常使用中，我们常用的功能相对简单。本文使您系统地了解@Value的用法。</p>
+<p>@Value 注解可以用来将外部的值动态注入到 Bean 中，在 @Value 注解中，可以使${} 与 #{} ，它们的区别如下：</p>
+<p>（1）@Value(“${}”)：可以获取对应属性文件中定义的属性值。</p>
+<p>（2）@Value(“#{}”)：表示 SpEl 表达式通常用来获取 bean 的属性，或者调用 bean 的某个方法。</p>
+<p>最后一步在测试类中编写测试方法, 发现可以发送邮件.</p>
+<blockquote>
+<p>我遇到一个小bug是我粗心地忘记了写 <code>mailSender.send()</code>, 导致邮件只是不停的被编辑而没有被发送.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@ContextConfiguration(classes = CommunityApplication.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MailTests</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MailClient mailClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> TemplateEngine templateEngine;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSendMail</span><span class="params">()</span>&#123;</span><br><span class="line">        mailClient.sendMail(<span class="string">&quot;1187779774@qq.com&quot;</span>,<span class="string">&quot;aidushu&quot;</span>,<span class="string">&quot;kenchiku&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testHtmlMail</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">Context</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Context</span>();</span><br><span class="line">        context.setVariable(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;kenchiku&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">content</span> <span class="operator">=</span> templateEngine.process(<span class="string">&quot;/mail/demo&quot;</span>,context);</span><br><span class="line"></span><br><span class="line">        mailClient.sendMail(<span class="string">&quot;yang_zhicheng@bupt.edu.cn&quot;</span>,<span class="string">&quot;html&quot;</span>,content);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/03/10/Redis%E5%AD%A6%E4%B9%A0/">假如期末考Redis</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/03/07/GRE%E9%98%85%E8%AF%BB05/">GRE阅读05</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><center>
+</br>
+</br>
+<script type="text/javascript">
+function show_runtime() {
+    window.setTimeout("show_runtime()", 1000);
+    X = new Date("02/12/2024 00:00:00");
+    Y = new Date();
+    T = (Y.getTime() - X.getTime());
+    M = 24 * 60 * 60 * 1000;
+    a = T / M;
+    A = Math.floor(a);
+    b = (a - A) * 24;
+    B = Math.floor(b);
+    c = (b - B) * 60;
+    C = Math.floor((b - B) * 60);
+    D = Math.floor((c - C) * 60);
+    runtime_span.innerHTML = "⏲️本站已运行 " + A + "天 " + B + "小时 " + C + "分 " + D + "秒⏲️"
+}
+show_runtime();
+</script>
+<span id="runtime_span"></span>
+</center>
+本站由 [@anonymity](/) 使用 [Stellar](https://github.com/xaoxuu/hexo-theme-stellar) 主题创建。</br>
+本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>

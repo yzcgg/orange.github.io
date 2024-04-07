@@ -1,0 +1,842 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>论坛项目实战01 - Orange_Blog</title>
+
+  
+    <meta name="description" content="异步请求什么是异步请求? 异步请求就是浏览器没有刷新,但是悄悄访问了一次数据库.联想注册时场景,我输入一个昵称,如果昵称重复,浏览器在不刷新页面的情况下立刻显示”当前昵称已经被占用”   springboot 常用注解参见这篇博客: http:&#x2F;&#x2F;t.csdnimg.cn&#x2F;9qB4K @SpringBootApplication包含@Configuration、@EnableAutoConfigu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论坛项目实战01">
+<meta property="og:url" content="https://yzcgg.github.io/2024/02/28/[%E9%A1%B9%E7%9B%AE]%E7%89%9B%E5%AE%A2%E8%AE%BA%E5%9D%9B/index.html">
+<meta property="og:site_name" content="Orange_Blog">
+<meta property="og:description" content="异步请求什么是异步请求? 异步请求就是浏览器没有刷新,但是悄悄访问了一次数据库.联想注册时场景,我输入一个昵称,如果昵称重复,浏览器在不刷新页面的情况下立刻显示”当前昵称已经被占用”   springboot 常用注解参见这篇博客: http:&#x2F;&#x2F;t.csdnimg.cn&#x2F;9qB4K @SpringBootApplication包含@Configuration、@EnableAutoConfigu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/java/qualifier.png">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/java/resource.png">
+<meta property="og:image" content="https://yzcgg.github.io/%22/source/assets/photos/http01.png%22">
+<meta property="og:image" content="https://yzcgg.github.io/%22/source/assets/photos/cookie.png%22">
+<meta property="og:image" content="https://yzcgg.github.io/%22/source/assets/photos/cookie02.png%22">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/login_logic.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/cookie_check.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/interceptor.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/Interceptor_config.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/login_logic.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/name_problem.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/filter_words.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/AJAX.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/AJAX02.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/insertDiscussPost.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/bug001.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/fabu01.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/bug002.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/comment02.jpg">
+<meta property="og:image" content="https://yzcgg.github.io/source/assets/photos/comment03.jpg">
+<meta property="article:published_time" content="2024-02-28T15:16:35.000Z">
+<meta property="article:modified_time" content="2024-03-30T15:57:07.726Z">
+<meta property="article:author" content="Yang ZhiCheng">
+<meta property="article:tag" content="后端">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yzcgg.github.io/source/assets/java/qualifier.png">
+  
+  
+  
+  <meta name="keywords" content="后端,java">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F9a4fc18b-e02d-409f-9b6d-1e92ddbcd27e%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1710249819&t=818093a620aa4d2bd57e9e3ccfa110cd" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Orange_Blog</div><div class="sub normal cap">专注,真诚,阳光</div><div class="sub hover cap" style="opacity:0"> yzc的blog</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82"><span class="toc-text">异步请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot-%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="toc-text">springboot 常用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringBootApplication"><span class="toc-text">@SpringBootApplication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Component-%E7%B3%BB"><span class="toc-text">@Component 系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ResponseBody"><span class="toc-text">@ResponseBody</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RestController"><span class="toc-text">@RestController</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AutoWired"><span class="toc-text">@AutoWired</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RequestMapping%E3%80%81-GetMapping%E3%80%81-PostMapping"><span class="toc-text">@RequestMapping、@GetMapping、@PostMapping</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RequestParam%E7%AD%89"><span class="toc-text">@RequestParam等</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lombok"><span class="toc-text">lombok</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis"><span class="toc-text">MyBatis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapper"><span class="toc-text">@Mapper</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD"><span class="toc-text">注册功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BF%80%E6%B4%BB%E5%8A%9F%E8%83%BD"><span class="toc-text">激活功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#md5%E5%8A%A0%E5%AF%86"><span class="toc-text">md5加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E5%8D%8F%E8%AE%AE"><span class="toc-text">HTTP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E4%BB%8B%E7%BB%8D"><span class="toc-text">HTTP介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="toc-text">HTTP发展历程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">HTTP应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">HTTP工作原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie"><span class="toc-text">cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section"><span class="toc-text">section</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E4%B8%9A%E5%8A%A1"><span class="toc-text">登录业务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#entity-%E5%8C%85%E4%B8%8B"><span class="toc-text">entity 包下</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapper%E5%B1%82"><span class="toc-text">Mapper层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89insert"><span class="toc-text">为什么要有insert?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89select"><span class="toc-text">为什么要有select?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#why-update"><span class="toc-text">why update?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service-%E5%B1%82"><span class="toc-text">Service 层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Login-%E5%88%B0%E5%BA%95%E5%B9%B2%E4%BA%86%E5%95%A5"><span class="toc-text">Login() 到底干了啥?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Controller%E5%B1%82"><span class="toc-text">Controller层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F%E4%B8%BA%E5%95%A5%E6%98%AFPOST"><span class="toc-text">请求方式为啥是POST?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Controller%E5%B1%82%E7%9A%84%E5%8F%82%E6%95%B0%E6%80%8E%E4%B9%88%E5%86%99"><span class="toc-text">Controller层的参数怎么写?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%AF%94%E5%AF%B9%E9%AA%8C%E8%AF%81%E7%A0%81"><span class="toc-text">如何比对验证码?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%85%B7%E4%BD%93%E8%A7%A3%E9%87%8A"><span class="toc-text">参数具体解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E7%99%BB%E9%99%86%E6%88%90%E5%8A%9F"><span class="toc-text">如何判断是否登陆成功?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E9%99%86%E6%88%90%E5%8A%9F-%E5%8F%91%E9%80%81cookie%E7%BB%99%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-text">登陆成功:发送cookie给浏览器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%80%E5%87%BA"><span class="toc-text">退出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81"><span class="toc-text">忘记密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E7%99%BB%E9%99%86%E4%BF%A1%E6%81%AF"><span class="toc-text">显示登陆信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E5%9C%A8%E6%AF%8F%E4%B8%AAController%E5%B1%82%E9%83%BD%E6%A3%80%E6%B5%8B%E4%B8%80%E9%81%8D"><span class="toc-text">为什么不能在每个Controller层都检测一遍?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-text">拦截器使用示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8%E6%80%BB%E7%BB%93"><span class="toc-text">拦截器总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81"><span class="toc-text">检查登录状态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E8%83%BD%E7%82%B9-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><span class="toc-text">技能点: 自定义注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81"><span class="toc-text">修改密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-text">需求分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%A8%A1%E6%9D%BF%E4%B8%ADname%E6%98%AF%E5%B9%B2%E5%95%A5%E7%9A%84"><span class="toc-text">前端模板中name是干啥的?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-%E2%80%93-RequestParam"><span class="toc-text">知识点 – @RequestParam</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E6%95%8F%E6%84%9F%E8%AF%8D"><span class="toc-text">过滤敏感词</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E5%8F%AB%E7%AC%A6%E5%8F%B7"><span class="toc-text">什么叫符号?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%B3%E8%BF%87%E7%AC%A6%E5%8F%B7"><span class="toc-text">跳过符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PostCOnstruct%E6%B3%A8%E8%A7%A3"><span class="toc-text">@PostCOnstruct注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E5%B8%96%E5%AD%90"><span class="toc-text">发布帖子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AJAX"><span class="toc-text">AJAX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%96%E5%AD%90%E5%AE%9E%E7%8E%B0"><span class="toc-text">发帖子实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%87%E5%88%B0bug01"><span class="toc-text">遇到bug01</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%96%91%E6%83%91"><span class="toc-text">小疑惑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%B8%96%E5%AD%90%E8%AF%A6%E6%83%85"><span class="toc-text">查看帖子详情</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%87%E5%88%B0bug01-1"><span class="toc-text">遇到bug01</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="toc-text">事务管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA"><span class="toc-text">添加评论</span></a></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/07/%5B%E6%97%A5%E8%AE%B0%5D%E6%B8%85%E6%98%8E%E5%89%8D%E5%A4%95/"><span class="title">清明前夕</span></a><a class="item title" href="/2024/03/26/%5B%E6%97%A5%E8%AE%B0%5D%E4%BD%8E%E8%B0%B7%E4%B8%AD%E7%9A%84%E5%B0%8F%E6%AC%A2%E6%AC%A3/"><span class="title">低谷中的小欢欣</span></a><a class="item title" href="/2024/03/07/%5B%E6%97%A5%E8%AE%B0%5D3-18-%E6%97%A0%E9%A2%98/"><span class="title">无题</span></a><a class="item title" href="/2024/04/03/%5B%E6%8A%80%E6%9C%AF%5DRedis/"><span class="title">Redis</span></a><a class="item title" href="/2024/04/04/%5B%E6%97%A5%E8%AE%B0%5D%E5%8E%BB%E7%B4%AB%E7%AB%B9%E5%85%AC%E5%9B%AD%E5%95%A6/"><span class="title">去紫竹公园啦</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E9%A1%B9%E7%9B%AE/">项目</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E9%A1%B9%E7%9B%AE/%E7%89%9B%E5%AE%A2%E8%AE%BA%E5%9D%9B/">牛客论坛</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-02-28T15:16:35.000Z">2024-02-28</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-30T15:57:07.726Z">2024-03-30</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>论坛项目实战01</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="异步请求"><a href="#异步请求" class="headerlink" title="异步请求"></a>异步请求</h2><p>什么是异步请求?</p>
+<div class="tag-plugin colorful note" color="blue"><div class="body"><p>异步请求就是浏览器没有刷新,但是悄悄访问了一次数据库.联想注册时场景,我输入一个昵称,如果昵称重复,浏览器在不刷新页面的情况下立刻显示”当前昵称已经被占用”</p></div></div>
+
+
+<h2 id="springboot-常用注解"><a href="#springboot-常用注解" class="headerlink" title="springboot 常用注解"></a>springboot 常用注解</h2><p>参见这篇博客: <a target="_blank" rel="noopener" href="http://t.csdnimg.cn/9qB4K">http://t.csdnimg.cn/9qB4K</a></p>
+<h3 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a>@SpringBootApplication</h3><p>包含@Configuration、@EnableAutoConfiguration、@ComponentScan通常用在主类上；</p>
+<table>
+<thead>
+<tr>
+<th>相关注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@ComponentScan</td>
+<td>用来自动扫描被这些注解标识的类，最终生成ioc容器里的bean，默认扫描范围是@ComponentScan注解所在配置类包及子包的类</td>
+</tr>
+<tr>
+<td>@SpringBootConfiguration</td>
+<td>与@Configuration作用相同，都是用来声明当前类是一个配置类,这里表明是springboot主类使用的配置类</td>
+</tr>
+<tr>
+<td>@EnableAutoConfiguration</td>
+<td>是springboot实现自动化配置的核心注解，通过这个注解把spring应用所需的bean注入容器中</td>
+</tr>
+</tbody></table>
+<h3 id="Component-系"><a href="#Component-系" class="headerlink" title="@Component 系"></a>@Component 系</h3><p>@Component、@Service、@Controller、@Repository</p>
+<p>这几个注解放在一起是因为功能基本一样的，都是将类注入到spring容器中，只不过它们使用的场景不同.</p>
+<p>被@Component,@Service,@Controller,@Repository注解标注的类，这些类会被纳入进spring容器中管理。</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@Repository</td>
+<td>持久层（dao）注入spring容器</td>
+</tr>
+<tr>
+<td>@Service</td>
+<td>业务逻辑层（server）注入spring容器</td>
+</tr>
+<tr>
+<td>@Controller</td>
+<td>控制层（controller）注入spring容器</td>
+</tr>
+<tr>
+<td>@Component</td>
+<td>普通pojo注入spring容器</td>
+</tr>
+</tbody></table>
+<h3 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a>@ResponseBody</h3><p>@ResponseBody可以作用在方法上或类上，表示该方法的返回结果直接写入 HTTP response body 中，而不会被解析为跳转路径，即不会经过视图解析器，返回什么数据即在页面输入什么数据。</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@ResponseBody</td>
+<td>@ResponseBody的作用其实是将java对象转为json格式的数据。</td>
+</tr>
+</tbody></table>
+<h3 id="RestController"><a href="#RestController" class="headerlink" title="@RestController"></a>@RestController</h3><p>该注解是@Controller和@ResponseBody的结合体，一般用于类，作用等于在类上面添加了@ResponseBody和@Controller</p>
+<h3 id="AutoWired"><a href="#AutoWired" class="headerlink" title="@AutoWired"></a>@AutoWired</h3><p>@AutoWired、@Qualifier、@Resource</p>
+<p>这3个注解都是基于注解方式进行自动装配，在容器里面将查找到的bean返回，一般@AutoWired用得最多，@Qualifier则需要配合@AutoWired使用，@Resource则是可以通过名字进行自动装配</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@AutoWired</td>
+<td>@Autowired默认按类型装配，如果发现找到多个bean，则按照name方式比对，如果还有多个，则报出异常</td>
+</tr>
+<tr>
+<td>@Qualifier</td>
+<td>spring的注解，按名字注入 一般当出现两个及以上bean时,不知道要注入哪个，结合@AutoWired使用</td>
+</tr>
+<tr>
+<td>@Resource</td>
+<td>默认按名称注入例如@Resource(name &#x3D; “zhaozhao”)则根据name属性注入,找不到则报错，若无name属性则根据属性名称注入，如果匹配不成功则按照类型匹配匹配不成功则报错。</td>
+</tr>
+</tbody></table>
+<p>@Qualifier</p>
+<p>当有一个接口的多个实现类时，只用@AutoWired会报错，因为它有多个接口的实现类，不知道你要找哪一个，这个时候就需要在注入bean的时候起个名字，然后用@Qualifier注解指定哪一个bean(按照名字注入与装配)</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/java/qualifier.png"></p>
+<p>@Resource</p>
+<p>相当于@Qualifier 和 @AutoWired 同时使用.</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/java/resource.png" alt="avatar"></p>
+<h3 id="RequestMapping、-GetMapping、-PostMapping"><a href="#RequestMapping、-GetMapping、-PostMapping" class="headerlink" title="@RequestMapping、@GetMapping、@PostMapping"></a>@RequestMapping、@GetMapping、@PostMapping</h3><p>这3个注解功能也是类似的，通过这3个注解来映射请求，也就是通过它来指定控制器可以处理哪些URL请求，用在方法上，可以通过配置的url进行访问</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@RequestMapping</td>
+<td>@RequestMapping（url），通过该注解就可以通过配置的url进行访问，方式可以是get或post请求，两种方式均可</td>
+</tr>
+<tr>
+<td>@GetMapping</td>
+<td>@GetMapping（url） ，功能类似的，只是这个限定了只能是Get请求</td>
+</tr>
+<tr>
+<td>@PostMapping</td>
+<td>@PostMapping（url），功能类似的，只是这个限定了只能是Post请求</td>
+</tr>
+</tbody></table>
+<h3 id="RequestParam等"><a href="#RequestParam等" class="headerlink" title="@RequestParam等"></a>@RequestParam等</h3><p>这几个注解放在一起主要是经常在控制层用来接收参数的</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@RequestParam</td>
+<td>获取查询参数。即url?name&#x3D;这种形式</td>
+</tr>
+<tr>
+<td>@PathVariable</td>
+<td>获取路径参数。即url&#x2F;{id}这种形式。</td>
+</tr>
+<tr>
+<td>@RequestBody</td>
+<td>获取Body的参数，一般用于post获取参数</td>
+</tr>
+<tr>
+<td>@RequestHeader</td>
+<td>获取请求头的信息</td>
+</tr>
+<tr>
+<td>@CookieValue</td>
+<td>获取Cookie的信息</td>
+</tr>
+</tbody></table>
+<h2 id="lombok"><a href="#lombok" class="headerlink" title="lombok"></a>lombok</h2><p>@Data</p>
+<p>该注解相当于同时加上以下注解@Setter @Getter,@ToString,@EqualsAndHashCode</p>
+<h2 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h2><p>参考CSDN博客:<a target="_blank" rel="noopener" href="http://t.csdnimg.cn/l891W">http://t.csdnimg.cn/l891W</a><br>参考知乎: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/260090982">https://zhuanlan.zhihu.com/p/260090982</a></p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>mybatis是什么？有什么特点？</p>
+<div class="tag-plugin colorful note" color="blue"><div class="body"><p>它是一款半自动的ORM持久层框架，具有较高的SQL灵活性，支持高级映射(一对一，一对多)，动态SQL，延迟加载和缓存等特性，但它的数据库无关性较低</p></div></div>
+
+<p>什么是ORM？</p>
+<div class="tag-plugin colorful note" color="blue"><div class="title">Object</div><div class="body"><p>Relation Mapping，对象关系映射。对象指的是Java对象，关系指的是数据库中的关系模型，对象关系映射，指的就是在Java对象和数据库的关系模型之间建立一种对应关系，比如用一个Java的Student类，去对应数据库中的一张student表，类中的属性和表中的列一一对应。Student类就对应student表，一个Student对象就对应student表中的一行数据</p></div></div>
+
+<p>为什么mybatis是半自动的ORM框架？</p>
+<div class="tag-plugin colorful note" color="blue"><div class="body"><p>用mybatis进行开发，需要手动编写SQL语句。而全自动的ORM框架，如hibernate，则不需要编写SQL语句。用hibernate开发，只需要定义好ORM映射关系，就可以直接进行CRUD操作了。由于mybatis需要手写SQL语句，所以它有较高的灵活性，可以根据需要，自由地对SQL进行定制，也因为要手写SQL，当要切换数据库时，SQL语句可能就要重写，因为不同的数据库有不同的方言(Dialect)，所以mybatis的数据库无关性低。虽然mybatis需要手写SQL，但相比JDBC，它提供了输入映射和输出映射，可以很方便地进行SQL参数设置，以及结果集封装。并且还提供了关联查询和动态SQL等功能，极大地提升了开发的效率。并且它的学习成本也比hibernate低很多</p></div></div>
+
+<h3 id="Mapper"><a href="#Mapper" class="headerlink" title="@Mapper"></a>@Mapper</h3><p>参考博客: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/jiangzhaowei/p/9879040.html">https://www.cnblogs.com/jiangzhaowei/p/9879040.html</a></p>
+<h2 id="注册功能"><a href="#注册功能" class="headerlink" title="注册功能"></a>注册功能</h2><p>注册无非是往数据库User表中添加一条数据.<br>Service层要对逻辑做相应处理, 比如, 对用户输入的密码进行MD5加密, 并且生成随机字符串拼接到密码后. 比如判空逻辑. 比如注册完成之后要发邮件给用户. 利用模板引擎动态生成邮件内容, 主要是那个含激活码和用户Id的链接.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title function_">register</span><span class="params">(User user)</span>&#123;</span><br><span class="line">    Map&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span>(user == <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;参数不能为空&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(user.getUsername()))&#123;</span><br><span class="line">        map.put(<span class="string">&quot;NameMsg&quot;</span>,<span class="string">&quot;User name cannot be null&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(user.getPassword()))&#123;</span><br><span class="line">        map.put(<span class="string">&quot;PasswordMsg&quot;</span>,<span class="string">&quot;Password cannot be null&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(user.getEmail()))&#123;</span><br><span class="line">        map.put(<span class="string">&quot;EmailMsg&quot;</span>,<span class="string">&quot;Email cannot be null&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">User</span> <span class="variable">u</span> <span class="operator">=</span> userMapper.selectByName(user.getUsername());</span><br><span class="line">    <span class="keyword">if</span>(u != <span class="literal">null</span>)&#123;</span><br><span class="line">        map.put(<span class="string">&quot;NameMsg&quot;</span>,<span class="string">&quot;This name has already been registered.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    u = userMapper.selectByEmail(user.getEmail());</span><br><span class="line">    <span class="keyword">if</span>(u != <span class="literal">null</span>)&#123;</span><br><span class="line">        map.put(<span class="string">&quot;EmailMsg&quot;</span>,<span class="string">&quot;This email has been used. Try another one.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    user.setSalt(CommunityUtil.generateUUID().substring(<span class="number">0</span>,<span class="number">5</span>));</span><br><span class="line">    user.setPassword(CommunityUtil.md5(user.getPassword()) + user.getSalt());</span><br><span class="line">    user.setType(<span class="number">0</span>);</span><br><span class="line">    user.setStatus(<span class="number">0</span>);</span><br><span class="line">    user.setActivationCode(CommunityUtil.generateUUID());</span><br><span class="line">    user.setHeaderUrl(String.format(<span class="string">&quot;http://images.nowcoder.com/head/%dt.png&quot;</span>, <span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">1000</span>)));</span><br><span class="line">    user.setCreateTime(<span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">    userMapper.insertUser(user);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//发送激活邮件</span></span><br><span class="line">    <span class="type">Context</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Context</span>();</span><br><span class="line">    context.setVariable(<span class="string">&quot;email&quot;</span>,user.getEmail());</span><br><span class="line">    <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> domain + contextPath + <span class="string">&quot;/activation/&quot;</span> + user.getId() + <span class="string">&quot;/&quot;</span> + user.getActivationCode();</span><br><span class="line">    context.setVariable(<span class="string">&quot;url&quot;</span>,url);</span><br><span class="line">    <span class="type">String</span> <span class="variable">content</span> <span class="operator">=</span> templateEngine.process(<span class="string">&quot;/mail/activation&quot;</span>,context);</span><br><span class="line">    mailClient.sendMail(user.getEmail(),<span class="string">&quot;activate your account&quot;</span>,content);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Controller层会在&#x2F;register路径时接收浏览器的POST请求, 主要是检查调用Service层的方法有没有返回错误信息, 没有则跳转到登录页面, 有则显示错误, 跳转到首页.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(path=&quot;/register&quot;,method=RequestMethod.POST)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">register</span><span class="params">(Model model, User user)</span>&#123;</span><br><span class="line">    Map&lt;String, Object&gt; map = userService.register(user);</span><br><span class="line">    <span class="keyword">if</span>(map == <span class="literal">null</span> || map.isEmpty())&#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;msg&quot;</span>,<span class="string">&quot;register success, we have sent you an email, please activate your account soon.&quot;</span>);</span><br><span class="line">        model.addAttribute(<span class="string">&quot;target&quot;</span>,<span class="string">&quot;/index&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;/site/operate-result&quot;</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;UsernameMessage&quot;</span>,map.get(<span class="string">&quot;NameMsg&quot;</span>));</span><br><span class="line">        model.addAttribute(<span class="string">&quot;EmailMessage&quot;</span>,map.get(<span class="string">&quot;EmailMsg&quot;</span>));</span><br><span class="line">        model.addAttribute(<span class="string">&quot;PasswordMessage&quot;</span>,map.get(<span class="string">&quot;PasswordMsg&quot;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;/site/register&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="激活功能"><a href="#激活功能" class="headerlink" title="激活功能"></a>激活功能</h2><p>激活无非是把数据库表中对应的status从0改成1.<br>有三种情况:</p>
+<ul>
+<li>已经是1了, 已经激活, 不用重复激活.</li>
+<li>正常激活. 本来是0, 改成1.</li>
+<li>激活码错误.</li>
+</ul>
+<p>Service层识别这三种情况. 一个小技巧是他用了一个接口, 枚举了这三种情况分别为0,1,2. 如果激活成功记得调用Mapper层的update, 更新一下数据库. 如果重复或者失败要返回错误信息.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">activate</span><span class="params">(<span class="type">int</span> userId, String code)</span>&#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userMapper.selectById(userId);</span><br><span class="line">    <span class="keyword">if</span>(user.getStatus() == <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> ACTIVATION_REPEATED;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(user.getActivationCode().equals(code))&#123;</span><br><span class="line">        userMapper.updateStatus(userId,<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> ACTIVATION_SUCCESS;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ACTIVATION_FAILED;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实你在邮箱中点击了链接也就相当于访问了localhost服务器. 服务器的<br>Controller层接收到请求, 其实只需要检查因为这个是路径参数, 检查路径参数的activation code是否正确, 正确则跳转到登录页面, 否则跳转到首页.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(path = &quot;/activation/&#123;userId&#125;/&#123;code&#125;&quot;, method = RequestMethod.GET)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">activation</span><span class="params">(Model model, <span class="meta">@PathVariable(&quot;userId&quot;)</span> <span class="type">int</span> userId, <span class="meta">@PathVariable(&quot;code&quot;)</span> String code)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> userService.activate(userId,code);</span><br><span class="line">    <span class="keyword">if</span>(result == CommunityConstant.ACTIVATION_SUCCESS)&#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;msg&quot;</span>,<span class="string">&quot;Activate success!!&quot;</span>);</span><br><span class="line">        model.addAttribute(<span class="string">&quot;target&quot;</span>,<span class="string">&quot;/login&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(result == CommunityConstant.ACTIVATION_REPEATED)&#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;msg&quot;</span>,<span class="string">&quot;您已经激活过了,激活是重复的&quot;</span>);</span><br><span class="line">        model.addAttribute(<span class="string">&quot;target&quot;</span>,<span class="string">&quot;/index&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;msg&quot;</span>,<span class="string">&quot;激活失败,激活码不正确&quot;</span>);</span><br><span class="line">        model.addAttribute(<span class="string">&quot;target&quot;</span>,<span class="string">&quot;/index&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;/site/operate-result&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在黑马的前后端分离开发的项目中, Controller层的返回是一个自定义的实体类Result, 其中包含了 状态码, 消息 和 json类型的数据.<br>这个牛客论坛项目并不是一个前后端分离开发的项目, 它通过Thymeleaf模板引擎把.html模板都存在后端服务器上了.</p>
+<h2 id="md5加密"><a href="#md5加密" class="headerlink" title="md5加密"></a>md5加密</h2><h2 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h2><p>基本性质</p>
+<ul>
+<li>简单的</li>
+<li>可扩展的</li>
+<li>无状态的,有会话的</li>
+</ul>
+<h3 id="HTTP介绍"><a href="#HTTP介绍" class="headerlink" title="HTTP介绍"></a>HTTP介绍</h3><p>HTTP就是几个单词的简写（Hyper Text Transfer Protocol，HTTP），意思就是超文本传输协议，是一个简单的请求-响应协议，它通常运行在TCP之上。它指定了客户端可能发送给服务器什么样的消息以及得到什么样的响应。</p>
+<p>HTTP是应用层协议，同其他应用层协议一样，是为了实现某一类具体应用的协议，并由某一运行在用户空间的应用程序来实现其功能。HTTP是一种协议规范，这种规范记录在文档上，为真正通过HTTP进行通信的HTTP的实现程序。</p>
+<h3 id="HTTP发展历程"><a href="#HTTP发展历程" class="headerlink" title="HTTP发展历程"></a>HTTP发展历程</h3><p>最初版本的HTTP协议并没有版本号，后来它的版本号被定位在 0.9 以区分后来的版本。</p>
+<p>0.9：0.9协议就是一个交换信息的无序协议，仅仅限于文字。由于无法进行内容的协商，在双发的握手和协议中，并有规定双发的内容是什么，也就是图片是无法显示和处理的。<br>1.0：由于0.9传输仅限于文字，已经不能满足于快速发展的互联网，于是就有了1.0，1.0对0.9进行了扩展，增强了功能，宗旨就是构建可扩展性。在1.0中，已经有了请求头和状态码。<br>1.1：1.1也被称为标准化协议，现在用的最多，1.1在1.0上进行了改进，比如连接可以复用，引入缓存控制机制，支持相应分块等。<br>2.0：2.0又是对1.1的一些改进，2.0和1.1有些基本的不同，例如：HTTP&#x2F;2是二进制协议而不是文本协议。不再可读，也不可无障碍的手动创建，改善的优化技术现在可被实施。<br>3.0：3.0目前使用不多，是对http的进一步改进，运行速度更快。</p>
+<h3 id="HTTP应用场景"><a href="#HTTP应用场景" class="headerlink" title="HTTP应用场景"></a>HTTP应用场景</h3><p>HTTP是一种协议，也就是一种规则，应用于应用层，基于TCP协议。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/%22/source/assets/photos/http01.png%22"></p>
+<h3 id="HTTP工作原理"><a href="#HTTP工作原理" class="headerlink" title="HTTP工作原理"></a>HTTP工作原理</h3><ul>
+<li>客户与服务器建立连接；</li>
+<li>客户向服务器提出请求；</li>
+<li>服务器接受请求，并根据请求返回相应的文件作为应答；</li>
+<li>客户与服务器关闭连接。</li>
+</ul>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>参考博客: <a target="_blank" rel="noopener" href="http://t.csdnimg.cn/salKc">http://t.csdnimg.cn/salKc</a></p>
+<p>Cookie是什么</p>
+<blockquote>
+<p>cookie的中文翻译是曲奇，小甜饼的意思。cookie其实就是一些数据信息，类型为“小型文本文件”，存储于电脑上的文本文件中。</p>
+</blockquote>
+<p>Cookie有什么用</p>
+<blockquote>
+<p>我们想象一个场景，当我们打开一个网站时，如果这个网站我们曾经登录过，那么当我们再次打开网站时，发现就不需要再次登录了，而是直接进入了首页。例如bilibili，csdn等网站。</p>
+</blockquote>
+<u>cookie保存在浏览器中,http协议本身是无记忆的, cookie可以支持一些需要记住状态的场景, 最常见的就是登录.</u>
+
+<p>Cookie的表示 </p>
+<blockquote>
+<p>一般情况下，cookie是以键值对进行表示的(key-value)，例如name&#x3D;jack，这个就表示cookie的名字是name，cookie携带的值是jack。</p>
+</blockquote>
+<p>Cookie的组成<br>以下是cookie中常用属性的解释。</p>
+<ul>
+<li>Name：这个是cookie的名字</li>
+<li>Value：这个是cooke的值</li>
+<li>Path：这个定义了Web站点上可以访问该Cookie的目录</li>
+<li>Expires：这个值表示cookie的过期时间，也就是有效值，cookie在这个值之前都有效。</li>
+<li>Size：这个表示cookie的大小</li>
+</ul>
+<p>Cookie的HTTP传输<br>我们还是通过抓包进行查看。首先查看cookie在HTTP请求中是怎样进行表示的。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/%22/source/assets/photos/cookie.png%22"></p>
+<p>HTTP请求</p>
+<blockquote>
+<p>我们在发送HTTP请求时，发现浏览器将我们的cookie都进行了携带(注意：游览器只会携带在当前请求的url中包含了该cookie中path值的cookie)，并且是以key：value的形式进行表示的。多个cookie用；进行隔开。 </p>
+</blockquote>
+<p>我们再来查看cookie在HTTP响应中是如何进行表示的。</p>
+<p>HTTP响应<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/%22/source/assets/photos/cookie02.png%22"></p>
+<blockquote>
+<p>我在服务器设置了2个cookie，返回给游览器。通过抓包，我们发现在HTTP响应中， cookie的表示形式是，Set-Cookie：cookie的名字，cookie的值。如果有多个cookie，那么在HTTP响应中就使用多个Set-Cookie进行表示。</p>
+</blockquote>
+<p>Cookie的生命周期<br>cookie有2种存储方式，一种是会话性，一种是持久性。</p>
+<ul>
+<li>会话性：如果cookie为会话性，那么cookie仅会保存在客户端的内存中，当我们关闭客服端时cookie也就失效了</li>
+<li>持久性：如果cookie为持久性，那么cookie会保存在用户的硬盘中，直至生存期结束或者用户主动将其销毁。<br>cookie我们是可以进行设置的，我们可以人为设置cookie的有效时间，什么时候创建，什么时候销毁。</li>
+</ul>
+<p>Cookie使用的常见方法</p>
+<ul>
+<li>new Cookie(String name, String value)：创建一个Cookie对象，必须传入cookie的名字和cookie的值</li>
+<li>getValue()：得到cookie保存的值</li>
+<li>getName()：获取cookie的名字</li>
+<li>setMaxAge(int expiry)：设置cookie的有效期，默认为-1。这个如果设置负数，表示客服端关闭，cookie就会删除。0表示马上删除。正数表示有效时间，单位是秒。</li>
+<li>setPath(String uri)：设置cookie的作用域</li>
+</ul>
+<p>HttpServletRequest和HttpServletResponse对Cookie进行操作的常见方法</p>
+<ul>
+<li>response.addCookie(Cookie cookie)：将cookie给客户端进行保存</li>
+<li>resquest.getCookies()：得到客服端传过来的所有cookie对象</li>
+</ul>
+<h2 id="section"><a href="#section" class="headerlink" title="section"></a>section</h2><p>参考博客: <a target="_blank" rel="noopener" href="http://t.csdnimg.cn/qVaEd">http://t.csdnimg.cn/qVaEd</a></p>
+<h2 id="登录业务"><a href="#登录业务" class="headerlink" title="登录业务"></a>登录业务</h2><ul>
+<li>点击登录, 跳转到登录页面</li>
+<li>输入用户名, 密码, 验证码<ul>
+<li>都正确, 则状态改为登录状态, 登录状态除了看帖子, 还可以发帖子.</li>
+<li>有错误, 则还是游客状态, 游客状态只能看帖子, 不能发帖</li>
+</ul>
+</li>
+<li>退出登录</li>
+</ul>
+<p>实现:</p>
+<ul>
+<li>通过生成登录凭证ticket, 存到数据库里, 来解决Http协议没有记忆的问题. 登录凭证有状态信息.<br>数据库: login_ticket表</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>user_id</th>
+<th>ticket</th>
+<th>status</th>
+<th>expired</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li>登录凭证: ticket</li>
+<li>状态: status 0-正常, 1-过期</li>
+<li>expired: 过期时间–现在的网站登录后一段时间就又让你重新登陆, 就是expire指定的</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/login_logic.jpg"></p>
+<h3 id="entity-包下"><a href="#entity-包下" class="headerlink" title="entity 包下"></a>entity 包下</h3><p>写一个LoginTicket类</p>
+<p>数据库表 和 java Object相对应, 这种思想应该建立了.</p>
+<h3 id="Mapper层"><a href="#Mapper层" class="headerlink" title="Mapper层"></a>Mapper层</h3><h4 id="为什么要有insert"><a href="#为什么要有insert" class="headerlink" title="为什么要有insert?"></a>为什么要有insert?</h4><p>因为登陆成功后要插入将含凭证的一行数据插入到表中, 所以Mapper层首先要有insert方法,insert的返回值一般是int表示影响的行数,参数是java对象longinTicket.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Insert(&#123;</span></span><br><span class="line"><span class="meta">        &quot;insert into login_ticket(user_id, ticket, status, expired) &quot; +</span></span><br><span class="line"><span class="meta">        &quot;values(#&#123;userId&#125;,#&#123;ticket&#125;,#&#123;status&#125;,#&#123;expired&#125;)&quot;&#125;)</span></span><br><span class="line"><span class="meta">@Options(useGeneratedKeys = true, keyProperty = &quot;id&quot;)</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">insertTicket</span><span class="params">(LoginTicket loginTicket)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>理解这个login_ticket表中id的含义, 就好理解useGeneratedKeys了.<br>id就是用来唯一标识login_ticket中一行的, 并没有特殊含义.<br>useGenerateKeys就是指定的属性让它自增.</p>
+<h4 id="为什么要有select"><a href="#为什么要有select" class="headerlink" title="为什么要有select?"></a>为什么要有select?</h4><p>因为我们后面有一个功能是根据ticket查询用户信息,并现实用户信息.<br>任何网站登陆上去了, 右上角都会显示你的头像,资料之类的.<br>所以我们由ticket查询返回一个LoginTicket对象, 其中的user_id可以唯一确定一名用户, 再去查user表就可以了.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Select(&#123;&quot;select id,user_id,ticket,status,expired &quot; +</span></span><br><span class="line"><span class="meta">            &quot;from login_ticket where ticket = #&#123;ticket&#125;&quot;&#125;)</span></span><br><span class="line">LoginTicket <span class="title function_">selectByTicket</span><span class="params">(String ticket)</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="why-update"><a href="#why-update" class="headerlink" title="why update?"></a>why update?</h4><p>easy, 登录凭证会过期的.</p>
+<p>一般都是返回int, 表示影响的行数, 还记得嘛?<br>参数是LoginTicket对象吗? No. 过期只需要改变status即可, 所以参数是ticket和status. 告诉数据库把那个ticket的状态改成什么status.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Update(&#123;&quot;update login_ticket set status = #&#123;status&#125; &quot; +</span></span><br><span class="line"><span class="meta">            &quot;where ticket = #&#123;ticket&#125;&quot;&#125;)</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">updateTicket</span><span class="params">(String ticket, <span class="type">int</span> status)</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里讲课的老师有个好习惯是写完Mapper就测试一次, 以放出错, 因为有些地方拼写错误不给你报错, 不像java语法, 语法写错了根本运行不了.</p>
+</blockquote>
+<h3 id="Service-层"><a href="#Service-层" class="headerlink" title="Service 层"></a>Service 层</h3><p>要单独开一个LoginService类吗, 无关紧要的事情. 只要把LoginTicketMapper注入进来, 就OK了, 因为本质上就只有Mapper层的三个功能, 插入, 修改, 查询.</p>
+<h4 id="Login-到底干了啥"><a href="#Login-到底干了啥" class="headerlink" title="Login() 到底干了啥?"></a>Login() 到底干了啥?</h4><p>返回值: Map&lt;String,Object&gt; 这个不用太纠结, 因为他这个项目不是前后端分离的.<br>参数: username, password, int expireTime(以秒为单位)</p>
+<p>验证空值:</p>
+<ul>
+<li>用户名</li>
+<li>密码</li>
+</ul>
+<p>根据用户名获取到user对象.<br>user.getPassword 与 参数中的password + user.getSalt() 比较<br>md5的唯一性.<br>就其实很神奇的一件事, 因为md5只能加密, 不能解密, 所以其实注册成功之后, 开发者就再也不知道用户密码的明文是什么了, 因为数据库里存的是 (password明文 + salt) 再md5加密后的结果. 登录时的比较也是基于此, 而不是直接比较明文.</p>
+<p>至此都没问题的话, 要产生登录凭证. 设置status为0. ticket其实就是generateUUID()随机生成的一段字符串. expire就是 当前时间 + 1000 * 参数中的expireTime(乘1000是转化成毫秒)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title function_">login</span><span class="params">(String username, String password, <span class="type">int</span> expiredSeconds)</span> &#123;</span><br><span class="line">    Map&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 空值处理</span></span><br><span class="line">    <span class="keyword">if</span> (StringUtils.isBlank(username)) &#123;</span><br><span class="line">        map.put(<span class="string">&quot;usernameMsg&quot;</span>, <span class="string">&quot;账号不能为空!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (StringUtils.isBlank(password)) &#123;</span><br><span class="line">        map.put(<span class="string">&quot;passwordMsg&quot;</span>, <span class="string">&quot;密码不能为空!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证账号</span></span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userMapper.selectByName(username);</span><br><span class="line">    <span class="keyword">if</span> (user == <span class="literal">null</span>) &#123;</span><br><span class="line">        map.put(<span class="string">&quot;usernameMsg&quot;</span>, <span class="string">&quot;该账号不存在!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证状态</span></span><br><span class="line">    <span class="keyword">if</span> (user.getStatus() == <span class="number">0</span>) &#123;</span><br><span class="line">        map.put(<span class="string">&quot;usernameMsg&quot;</span>, <span class="string">&quot;该账号未激活!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 验证密码</span></span><br><span class="line">    password = CommunityUtil.md5(password + user.getSalt());</span><br><span class="line">    <span class="keyword">if</span> (!user.getPassword().equals(password)) &#123;</span><br><span class="line">        map.put(<span class="string">&quot;passwordMsg&quot;</span>, <span class="string">&quot;密码不正确!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成登录凭证</span></span><br><span class="line">    <span class="type">LoginTicket</span> <span class="variable">loginTicket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LoginTicket</span>();</span><br><span class="line">    loginTicket.setUserId(user.getId());</span><br><span class="line">    loginTicket.setTicket(CommunityUtil.generateUUID());</span><br><span class="line">    loginTicket.setStatus(<span class="number">0</span>);<span class="comment">//0有效, 1无效</span></span><br><span class="line">    loginTicket.setExpired(<span class="keyword">new</span> <span class="title class_">Date</span>(System.currentTimeMillis() + expiredSeconds * <span class="number">1000</span>));</span><br><span class="line">    loginTicketMapper.insertTicket(loginTicket);</span><br><span class="line"></span><br><span class="line">    map.put(<span class="string">&quot;ticket&quot;</span>, loginTicket.getTicket());</span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不管Map的话至此全弄懂了, 结束!</p>
+<h3 id="Controller层"><a href="#Controller层" class="headerlink" title="Controller层"></a>Controller层</h3><h4 id="请求方式为啥是POST"><a href="#请求方式为啥是POST" class="headerlink" title="请求方式为啥是POST?"></a>请求方式为啥是POST?</h4><p>首先, 因为路径相同的话, 请求方式也相同就会出错. 我们点击登录, 跳转到登录页面已经有一个&#x2F;login路径了.<br>同时, 这次是前端页面要向服务器提交用户名, 密码, 验证码, 这种数据放在明文路径后面显然不合适.</p>
+<h3 id="Controller层的参数怎么写"><a href="#Controller层的参数怎么写" class="headerlink" title="Controller层的参数怎么写?"></a>Controller层的参数怎么写?</h3><p>这就要提到POST请求携带参数的形式了,参考博客:<a target="_blank" rel="noopener" href="http://t.csdnimg.cn/mmJhM">http://t.csdnimg.cn/mmJhM</a><br>我简单理解, 就是如果不指定,就是key,value形式. 之前做的黑马的前后端分离的项目中, 是用的json格式, 我觉得现代开发大多数还是传的json吧.</p>
+<p>java controller 层参数: <a target="_blank" rel="noopener" href="http://t.csdnimg.cn/RlAZm">http://t.csdnimg.cn/RlAZm</a></p>
+<p>（1）@PathVariable、@RequestParam 、@RequestBody用来获取前台传过来的参数<br>（2）ModelAndView、Model、ModelMap用来返回提示信息给前台界面<br>   &lt;1&gt;例如：操作成功后，返回提示信息：界面显示操作成功！<br>   &lt;2&gt;使用较多的是Model、ModelMap</p>
+<h3 id="如何比对验证码"><a href="#如何比对验证码" class="headerlink" title="如何比对验证码?"></a>如何比对验证码?</h3><p>验证码之前我们放到session里了, 现在获取并判断和参数中传入的code是否相等.</p>
+<p>如果有误, 则由model携带信息给前端浏览器. 并跳转到登陆界面.</p>
+<h3 id="参数具体解释"><a href="#参数具体解释" class="headerlink" title="参数具体解释"></a>参数具体解释</h3><p>HttpServletResponse 对象用于生成cookie.<br>HttpSession用于获取之前保存在session中的验证码.<br>rememberme 其实就是一个记录的登陆时间长一点儿罢了, 并不是咱们常见的那种记住密码.</p>
+<h3 id="如何判断是否登陆成功"><a href="#如何判断是否登陆成功" class="headerlink" title="如何判断是否登陆成功?"></a>如何判断是否登陆成功?</h3><p>controller层为什么还要判断, 是因为这里需要执行相应的跳转, map中有ticket, 说明生成了有效登录凭证, 跳转到首页.<br>没有登录凭证, 说明service层判断出有错误, 那就在model中显示错误, 跳转到登录页面(你重新登陆吧.)</p>
+<h3 id="登陆成功-发送cookie给浏览器"><a href="#登陆成功-发送cookie给浏览器" class="headerlink" title="登陆成功:发送cookie给浏览器"></a>登陆成功:发送cookie给浏览器</h3><p>setPath() 设置cookie的作用范围, 那是只有当 浏览器向服务器通过指定路径发送请求时, 才携带cookie.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(path = &quot;/login&quot;, method = RequestMethod.POST)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">login</span><span class="params">(String username, String password, String code, <span class="type">boolean</span> rememberme,</span></span><br><span class="line"><span class="params">                        Model model, HttpSession session, HttpServletResponse response)</span> &#123;</span><br><span class="line">        <span class="comment">// 检查验证码</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">kaptcha</span> <span class="operator">=</span> (String) session.getAttribute(<span class="string">&quot;kaptcha&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) &#123;</span><br><span class="line">            model.addAttribute(<span class="string">&quot;codeMsg&quot;</span>, <span class="string">&quot;验证码不正确!&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;/site/login&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查账号,密码</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">expiredSeconds</span> <span class="operator">=</span> rememberme ? REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;</span><br><span class="line">        Map&lt;String, Object&gt; map = userService.login(username, password, expiredSeconds);</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(<span class="string">&quot;ticket&quot;</span>)) &#123;</span><br><span class="line">            <span class="type">Cookie</span> <span class="variable">cookie</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cookie</span>(<span class="string">&quot;ticket&quot;</span>, map.get(<span class="string">&quot;ticket&quot;</span>).toString());</span><br><span class="line">            cookie.setPath(contextPath);</span><br><span class="line">            cookie.setMaxAge(expiredSeconds);</span><br><span class="line">            response.addCookie(cookie);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;redirect:/index&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            model.addAttribute(<span class="string">&quot;usernameMsg&quot;</span>, map.get(<span class="string">&quot;usernameMsg&quot;</span>));</span><br><span class="line">            model.addAttribute(<span class="string">&quot;passwordMsg&quot;</span>, map.get(<span class="string">&quot;passwordMsg&quot;</span>));</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;/site/login&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>试注册一个<br>账号:machao<br>密码:maxiaochao</p>
+<p>成功了! 能看到数据库里多了一行<br>遇到的小bug是, 无论如何都显示密码错误, 看了一下发现是注册的时候加密有问题. 应该是密码 + salt 同时加密.</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/cookie_check.jpg"></p>
+<h2 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h2><p>简单了, 我们数据库层面只需要把status置1. 而这个功能我们已经做了.</p>
+<p>Service层, 我觉得我需要的信息就是, 哪个用户退出了, 所以username或者userId.<br>卧槽, 还真不是, 登录退出主体都是ticket. 直接调用mapper层,改个状态.</p>
+<p>controller层, 从cookie中获取ticket, 要用到@cookievalue(“ticket”), 用Thymeleaf模板引擎, 就是返回String.</p>
+<h2 id="忘记密码"><a href="#忘记密码" class="headerlink" title="忘记密码"></a>忘记密码</h2><ul>
+<li>点击忘记密码, 打开忘记密码页面.</li>
+<li>在表单中输入邮箱, 点击获取验证码按钮, 服务器向邮箱发送一份验证码</li>
+<li>在表单中填写收到的验证码及新密码, 点击重置, 服务器对密码进行修改.</li>
+</ul>
+<p>Mapper层, 其实就是对password进行update.</p>
+<p>Service层, 我要知道用户, 新的password, 验证码, 邮箱.</p>
+<p>Controller层, 我要知道</p>
+<p>复盘一下忘记密码功能. 这种没前后端分离的问题是没有接口文档, 这是最恶心的, 其实设计接口才是对业务的理解部分.</p>
+<p>总之从页面上看, 有两个路径: 点击获取验证码&#x2F;getCode, 请求方式是GET 点击修改密码&#x2F;forget, 请求方式是POST. 至于前端页面是怎么做到点击后就访问这个路径, 其实后端程序员不用关心.</p>
+<p>点击获取验证码之后, 要给邮箱发一个邮件, 邮件中包含验证码, 同时验证码要保存在session中, 方便我们后续判断. service层对邮箱做一些判断:是否已经注册, 是否激活等, 并且发送邮件. 发现一点是并不是每个业务功能都需要调用Mapper层.</p>
+<p>点击修改密码后, 先比较验证码和session中的是否一致, 一致并且没有过期, 则进service层, 最终修改数据库. 注意这里一个细节是, 对session的判断一般是在controller层进行.</p>
+<h2 id="显示登陆信息"><a href="#显示登陆信息" class="headerlink" title="显示登陆信息"></a>显示登陆信息</h2><h3 id="为什么不能在每个Controller层都检测一遍"><a href="#为什么不能在每个Controller层都检测一遍" class="headerlink" title="为什么不能在每个Controller层都检测一遍?"></a>为什么不能在每个Controller层都检测一遍?</h3><p>很显然请求路径可能特别多, 这样搞耦合度太高, 冗余性太强.</p>
+<h3 id="拦截器使用示例"><a href="#拦截器使用示例" class="headerlink" title="拦截器使用示例"></a>拦截器使用示例</h3><ul>
+<li>定义拦截器类, 实现HandlerInterceptor接口</li>
+<li>配置拦截器, 为它指定拦截,排除的路径</li>
+</ul>
+<p>首先,定义拦截器:</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/interceptor.jpg"></p>
+<ul>
+<li>prehandle(): 在controller前执行</li>
+<li>postHandle(): 在controller后执行</li>
+<li>afterCompletion(): 在TemplateEngine之后执行</li>
+</ul>
+<p>然后, 配置拦截器:<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/Interceptor_config.jpg"></p>
+<ul>
+<li>excludePathPatterns() 指定的路径不拦截</li>
+<li>addPathPatterns() 拦截指定的路径</li>
+<li>addInterceptor() 添加拦截器</li>
+</ul>
+<p>当拦截器的返回值是布尔类型（boolean）时，这通常表示是否允许被拦截的操作继续执行。true可以放行, false 不能放行.</p>
+<h3 id="拦截器总结"><a href="#拦截器总结" class="headerlink" title="拦截器总结"></a>拦截器总结</h3><p>这张图清楚的展示出如何显示用户的登录信息, 比如头像,用户名等. 主要是通过浏览器给服务器发送的请求中携带的cookie中包含登录凭证ticket, 服务器根据ticket查login_ticket表, 得到user_id, 再查user_id表, 得到user的各种信息. </p>
+<p>其中, 获得user对象需要在controller层之前完成, 并且不能将user对象简单的保存在一个java变量中, 因为现实情况是高并发的场景, 所以需要线程隔离, 使用到ThreadLocal, 相当于是每个线程保存自己的user. 这里单独定义了工具类HostHolder.</p>
+<p>把ThreadLocal中的user放到modelandView模板中是Controller之后, TemplateEngine之前. </p>
+<p>而afterCompletion中, 则需要清除当前的ThreadLocal中的user.</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/login_logic.jpg"></p>
+<p>拦截器代码:</p>
+<ul>
+<li>定义拦截器<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginTicketInterceptor</span> <span class="keyword">implements</span> <span class="title class_">HandlerInterceptor</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HostHolder hostHolder;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">ticket</span> <span class="operator">=</span> CookieUtils.getCookieValue(request,<span class="string">&quot;ticket&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(ticket != <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="type">LoginTicket</span> <span class="variable">loginTicket</span> <span class="operator">=</span> userService.getLoginTicket(ticket);</span><br><span class="line">            <span class="keyword">if</span>(loginTicket != <span class="literal">null</span> &amp;&amp; loginTicket.getStatus() == <span class="number">0</span> &amp;&amp; loginTicket.getExpired().after(<span class="keyword">new</span> <span class="title class_">Date</span>())) &#123;</span><br><span class="line">                <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userService.findUserById(loginTicket.getUserId());</span><br><span class="line">                hostHolder.setUser(user);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> hostHolder.getUser();</span><br><span class="line">        <span class="keyword">if</span>(modelAndView != <span class="literal">null</span> &amp;&amp; user != <span class="literal">null</span>)&#123;</span><br><span class="line">            modelAndView.addObject(<span class="string">&quot;loginUser&quot;</span>,user);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        hostHolder.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>注册拦截器:<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebMvcConfig</span> <span class="keyword">implements</span> <span class="title class_">WebMvcConfigurer</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LoginTicketInterceptor loginTicketInterceptor;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> &#123;</span><br><span class="line">        registry.addInterceptor(loginTicketInterceptor)</span><br><span class="line">                .excludePathPatterns(<span class="string">&quot;/**/*.css&quot;</span>, <span class="string">&quot;/**/*.js&quot;</span>, <span class="string">&quot;/**/*.png&quot;</span>, <span class="string">&quot;/**/*.jpg&quot;</span>, <span class="string">&quot;/**/*.jpeg&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>两个工具类:</p>
+<ul>
+<li><p>从cookie中获得value:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CookieUtils</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getCookieValue</span><span class="params">(HttpServletRequest request, String name)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(request == <span class="literal">null</span> || name == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;参数为空&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Cookie[] cookies = request.getCookies();</span><br><span class="line">        <span class="keyword">if</span>(cookies != <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span>(Cookie cookie : cookies)&#123;</span><br><span class="line">                <span class="keyword">if</span>(name.equals(cookie.getName()))&#123;</span><br><span class="line">                    <span class="keyword">return</span> cookie.getValue();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>HostHolder</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HostHolder</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ThreadLocal&lt;User&gt; threadLocal = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUser</span><span class="params">(User user)</span>&#123;</span><br><span class="line">        threadLocal.set(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadLocal.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">clear</span><span class="params">()</span>&#123;</span><br><span class="line">        threadLocal.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="检查登录状态"><a href="#检查登录状态" class="headerlink" title="检查登录状态"></a>检查登录状态</h2><p>其实叫这个标题有点儿误导性, 他的功能其实就是让你不仅点不到, 也不能通过路径去访问一些你不该访问的页面.</p>
+<p>举例子: 你目前没有登陆, 你不该通过&#x2F;community&#x2F;user&#x2F;setting 访问到设置头像的界面.</p>
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><p>拦截器! </p>
+<ul>
+<li>自定义一个注解 @LoginRequired</li>
+<li>把需要 检查登录状态的 controller 方法都加上该注解</li>
+<li>定以拦截器, 检查 controller 方法上是否带有该注解<ul>
+<li>如果有,则拦截, 并通过response 重定向到登录页面</li>
+<li>如果没有, 则放行.</li>
+</ul>
+</li>
+<li>配置拦截器.</li>
+</ul>
+<p>总结: 通过自定义注解标记那些需要拦截的方法.</p>
+<h3 id="技能点-自定义注解"><a href="#技能点-自定义注解" class="headerlink" title="技能点: 自定义注解"></a>技能点: 自定义注解</h3><p>参考博客:<a target="_blank" rel="noopener" href="http://t.csdnimg.cn/gOtPm">http://t.csdnimg.cn/gOtPm</a></p>
+<p>1、基本介绍☺<br>▶ 什么是元注解：</p>
+<pre><code>    元注解就是解释注解的注解，它注解的对象是我们前面介绍的注解，如：@Override、@Deprecated 、@SuppressWarnings       
+</code></pre>
+<p> ▶ 四种元注解：</p>
+<pre><code>     ▷  Retention：指定注解的作用范围，三种 SOURCE,CLASS,RUNTIME
+     ▷ Target：指定注解可以在哪些地方使用
+     ▷ Documented ：指定该注解是否会在 javadoc 体现
+     ▷ Inherited：子类会继承父类注解
+</code></pre>
+<p>▶ 注解的注意事项：<br>        ▷ 注解仅存在于源码中，在class字节码文件中不包含</p>
+<pre><code>    ▷ 默认的保留策略，注解会在class字节码文件中存在，但运行时无法获得，
+
+    ▷ 注解会在class字节码文件中存在，在运行时可以通过反射获取到
+
+    ▷ 首先要明确生命周期长度 SOURCE &lt; CLASS &lt; RUNTIME ，前者能作用的地方后者一定也能作用。
+            ①：一般如果需要在 运行时去动态获取注解信息，那只能用 RUNTIME 注解；
+            ②：如果要在 编译时进行一些预处理操作，比如生成一些辅助代码（如 ButterKnife），就用 CLASS注解；
+            ③：如果只是做一些 检查性的操作如 @Override 和 @SuppressWarnings，则可选用 SOURCE 注解。
+</code></pre>
+<p>2、Retention注解☺<br>▲ 解释：</p>
+<pre><code>     只能用于修饰一个 Annotation 定义, 用于指定该 Annotation 可以保留多长时间,@Rentention 包含一个 RetentionPolicy 类型的成员变量, 使用 @Rentention 时必须为该 value 成员变量指定值（值有三种）。
+
+ 
+</code></pre>
+<p>▲ 三种值：</p>
+<pre><code>     ▷ RetentionPolicy.SOURCE: 编译器使用后，直接丢弃这种策略的注释。
+
+      ▷  RetentionPolicy.CLASS: 编译器将把注解记录在 class 文件中 . 当运行 Java 程序时 , JVM 不会保留注解。 这是默认值。
+      ▷  RetentionPolicy.RUNTIME: 编译器将把注解记录在 class 文件中 . 当运行 Java 程序时 , JVM 会保留注解 . 程序可以 通过反射获取该注解。
+</code></pre>
+<p>3、Target 注解☺<br>▲ 解释：</p>
+<pre><code>    用于修饰 Annotation 定义，指定被修饰的 Annotation 能用于修饰哪些程序元素。@Target 也包含一个名为 value 的成员变量。
+</code></pre>
+<p>​​​​​​4、Documented 注解☺<br>▲ 解释：</p>
+<pre><code>    @Documented: 用于指定被该元注解修饰的 Annotation 类将被javadoc 工具提取成文档，即在生成文档时，可以看到该注解。
+</code></pre>
+<p>▲ 注意：</p>
+<pre><code>    定义为@Documented 的注解必须设置Retention值为RUNTIME。
+</code></pre>
+<p>5、Inherited 注解☺<br>▲ 解释：</p>
+<pre><code>    被@Inherited 修饰的注解 将具有继承性，如果某个类使用了被 @Inherited修饰的注解，则其子类将自动具有该注解
+</code></pre>
+<h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><h3 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h3><ul>
+<li>在settings 页面, 填写原密码 以及 新密码, 点击保存时, 将数据提交给服务器</li>
+<li>服务器收到post请求, 首先根据cookie中的登录凭证查询到当前用户(其实HostHolder里应该封装好了), 然后判断原密码是否输入正确</li>
+<li>正确则 update 为新密码, 检查两次密码输入是否一致的功能应该在前端实现.</li>
+</ul>
+<p>成功了, 自己写出来了, 还挺开心的.</p>
+<h3 id="前端模板中name是干啥的"><a href="#前端模板中name是干啥的" class="headerlink" title="前端模板中name是干啥的?"></a>前端模板中name是干啥的?</h3><p>终于弄明白了:</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/name_problem.jpg"></p>
+<p>name 要和 Controller 层的参数保持一致, post请求发来参数是key-value形式的,<br>如果参数名 和 name名一致, 就不用加什么注解. 相当于自动就把参数对应上了.</p>
+<p>其实涉及到的知识点是下面的注解: </p>
+<h3 id="知识点-–-RequestParam"><a href="#知识点-–-RequestParam" class="headerlink" title="知识点 – @RequestParam"></a>知识点 – @RequestParam</h3><p>参考博客: <a target="_blank" rel="noopener" href="http://t.csdnimg.cn/c5AUX">http://t.csdnimg.cn/c5AUX</a></p>
+<u>（1）不加@RequestParam前端的参数名需要和后端控制器的变量名保持一致才能生效</u>
+
+<p>（2）不加@RequestParam参数为非必传，加@RequestParam写法参数为必传。但@RequestParam可以通过@RequestParam(required &#x3D; false)设置为非必传。</p>
+<u>（3）@RequestParam可以通过@RequestParam(“userId”)或者@RequestParam(value = “userId”)指定传入的参数名。（最主要的作用）</u>
+
+<p>（4）@RequestParam可以通过@RequestParam(defaultValue &#x3D; “0”)指定参数默认值</p>
+<p>（5）如果接口除了前端调用还有后端RPC调用，则不能省略@RequestParam，否则RPC会找不到参数报错</p>
+<p>（6）Get方式请求，参数放在url中时：</p>
+<blockquote>
+<ul>
+<li><p>不加@RequestParam注解：url可带参数也可不带参数，输入 localhost:8080&#x2F;list1 以及 localhost:8080&#x2F;list1?userId&#x3D;xxx 方法都能执行</p>
+</li>
+<li><p>加@RequestParam注解：url必须带有参数。也就是说你直接输入localhost:8080&#x2F;list2 会报错，不会执行方法。只能输入localhost:8080&#x2F;list2?userId&#x3D;xxx 才能执行相应的方法</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="过滤敏感词"><a href="#过滤敏感词" class="headerlink" title="过滤敏感词"></a>过滤敏感词</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/filter_words.jpg"></p>
+<p>算法过程:</p>
+<ul>
+<li>三个指针, 指针1指向Tire树根, 指针2 和 指针3 指向字符串</li>
+<li>初始指针2和3都在字符串首字符, 3指向的字母 是否在 指针1的下一层出现</li>
+<li>若出现, 则说明可能是 敏感词, 指针3 和 指针1 都向下移动</li>
+<li>若没出现, 则说明当前字母肯定不是敏感词开头, 指针2 往后移动一个, 指针3 找指针2, 把刚才的字母拼接到result字符串中.</li>
+<li>如果检测出敏感词, 则指针2移动到指针3的后一个位置, 指针3找指针2, 指针1复位指向树根.</li>
+</ul>
+<h3 id="什么叫符号"><a href="#什么叫符号" class="headerlink" title="什么叫符号?"></a>什么叫符号?</h3><p>CharUtils.isAsciiAlphanumeric(c) 函数检查给定的字符 c 是否是一个属于 ASCII 范围内的字母（A-Z 或 a-z）或数字（0-9）。如果是，该函数通常会返回 true；如果不是，就返回 false。</p>
+<p>也就是说, 除了汉字 字母 数字之外的东西都被定义为符号.</p>
+<p>#$+艹泥–()马</p>
+<h3 id="跳过符号"><a href="#跳过符号" class="headerlink" title="跳过符号"></a>跳过符号</h3><p>这个: #$+艹泥–()马, 最终会输出: #$+***</p>
+<p>也就是说, p1在根节点的时候, 还没有潜在的出现敏感词的可能, 所以p2++, 并把p2刚才指向的字符拼接到sb中.<br>p3每轮都要++, 因为p3每次检测下一个字符.</p>
+<h3 id="PostCOnstruct注解"><a href="#PostCOnstruct注解" class="headerlink" title="@PostCOnstruct注解"></a>@PostCOnstruct注解</h3><p>容器在实例化Bean之后, 在调用类的构造器之后, 带有该注解的方法会自动执行.</p>
+<h2 id="发布帖子"><a href="#发布帖子" class="headerlink" title="发布帖子"></a>发布帖子</h2><h3 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h3><ul>
+<li>Asynchronous JavaScript and XML</li>
+<li>异步javaScript 和 XML, 不是一门新技术, 而是一个新术语</li>
+<li>使用AJAX, 网页能将增量更新呈现在页面上, 而不刷新整个页面</li>
+<li>X 虽然代表XML, 但是实际上我们都用JSON</li>
+</ul>
+<p>示例:<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/AJAX.jpg"></p>
+<p>controller层代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ajax示例</span></span><br><span class="line">    <span class="meta">@RequestMapping(path = &quot;/ajax&quot;, method = RequestMethod.POST)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">testAjax</span><span class="params">(String name, <span class="type">int</span> age)</span> &#123;</span><br><span class="line">        System.out.println(name);</span><br><span class="line">        System.out.println(age);</span><br><span class="line">        <span class="keyword">return</span> CommunityUtil.getJSONString(<span class="number">0</span>, <span class="string">&quot;操作成功!&quot;</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>浏览器控制台输出:<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/AJAX02.jpg"></p>
+<h3 id="发帖子实现"><a href="#发帖子实现" class="headerlink" title="发帖子实现"></a>发帖子实现</h3><p>要防止发帖时, 标题中带有html标签, 比如我起标题这样起:&lt;script&gt;哈哈&lt;\script&gt;, 浏览器如果把这个标签也解析了,那肯定是不合适的. (有点儿像SQL注入攻击的意思)</p>
+<h3 id="遇到bug01"><a href="#遇到bug01" class="headerlink" title="遇到bug01"></a>遇到bug01</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/insertDiscussPost.jpg"><br>insertFields 要少一个id, 因为数据库表主键自增.<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/bug001.jpg"></p>
+<h3 id="小疑惑"><a href="#小疑惑" class="headerlink" title="小疑惑"></a>小疑惑</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/fabu01.jpg"><br>这里的loginUser我一下子不知道是啥, 凡是前端页面${}里的内容, 都可以猜想是model.addAttribute(“name”,value)add进去的. 果然这里的loginUser就是当时获取登录用户信息时, 拦截器那里add进去的, 有了loginUser, 前端页面才能显示当前用户的状态.</p>
+<h2 id="查看帖子详情"><a href="#查看帖子详情" class="headerlink" title="查看帖子详情"></a>查看帖子详情</h2><p>就是三层架构, 然后我觉得我目前还没有掌握熟悉的还是Thymeleaf模板引擎前端相关的东西, 每次的工作看起来都差不多, 但是具体写什么还是不完全确定.</p>
+<h3 id="遇到bug01-1"><a href="#遇到bug01-1" class="headerlink" title="遇到bug01"></a>遇到bug01</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/bug002.jpg"></p>
+<p>这个最后是发现, GET请求接收路径参数, Controller层的参数中要加@PathVariable(“参数名”)这个注解, 忘加了.</p>
+<h2 id="事务管理"><a href="#事务管理" class="headerlink" title="事务管理"></a>事务管理</h2><ul>
+<li>脏读</li>
+<li>幻读</li>
+<li>不可重复读</li>
+<li>第一类丢失更新</li>
+<li>第二类丢失更新</li>
+</ul>
+<p>事务隔离级别:</p>
+<ul>
+<li>读未提交</li>
+<li>读已提交</li>
+<li>可重复读</li>
+<li>可串行化</li>
+</ul>
+<p>锁机制:</p>
+<ul>
+<li>悲观锁<ul>
+<li>共享锁</li>
+<li>排它锁</li>
+</ul>
+</li>
+<li>乐观锁<ul>
+<li>版本号</li>
+<li>时间戳</li>
+</ul>
+</li>
+</ul>
+<h2 id="添加评论"><a href="#添加评论" class="headerlink" title="添加评论"></a>添加评论</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/comment02.jpg"><br>有个大问题, bug表现: 回复给评论 和 回复给回复显示不出来. 原因是没有理解EntityType.<br>entityType的正确理解是, 回复给指定的类型的该类型在表中的id. 这个id是由前端提交给服务器的.<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/source/assets/photos/comment03.jpg"><br>这里设置了entityId, 并返发送给服务器</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/02/29/%E5%91%A8%E5%9B%9B%E5%B0%8F%E8%AE%B0/">周四小记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/02/28/GRE%E9%98%85%E8%AF%BB04/">GRE阅读04</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><center>
+</br>
+</br>
+<script type="text/javascript">
+function show_runtime() {
+    window.setTimeout("show_runtime()", 1000);
+    X = new Date("02/12/2024 00:00:00");
+    Y = new Date();
+    T = (Y.getTime() - X.getTime());
+    M = 24 * 60 * 60 * 1000;
+    a = T / M;
+    A = Math.floor(a);
+    b = (a - A) * 24;
+    B = Math.floor(b);
+    c = (b - B) * 60;
+    C = Math.floor((b - B) * 60);
+    D = Math.floor((c - C) * 60);
+    runtime_span.innerHTML = "⏲️本站已运行 " + A + "天 " + B + "小时 " + C + "分 " + D + "秒⏲️"
+}
+show_runtime();
+</script>
+<span id="runtime_span"></span>
+</center>
+本站由 [@anonymity](/) 使用 [Stellar](https://github.com/xaoxuu/hexo-theme-stellar) 主题创建。</br>
+本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>
